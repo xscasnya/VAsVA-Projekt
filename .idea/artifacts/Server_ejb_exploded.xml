@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="ejb-jar" build-on-make="true" name="Server:ejb exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Server_ejb_exploded.rar</output-path>
+    <root id="archive" name="Server_ejb exploded.jar">
+      <element id="javaee-facet-resources" facet="Server/ejb/EJB" />
+      <element id="module-output" name="Server" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/Server/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

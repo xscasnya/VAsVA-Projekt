@@ -12,20 +12,22 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
   </head>
   <body>
-  <%
+<%--  <%
     out.println("Your IP address is " + request.getRemoteAddr());
-  %>
+  %>--%>
+
 
   <div class="col-md-4"></div>
-  <div class="col-md-4">
-    <form action="loginForm.jsp">
+  <div class="col-md-4" style="margin-top: 10%;">
+    <h1 class="center">Movie Watchlist</h1>
+    <form action="LoginServlet" method="post">
       <div class="form-group">
         <label for="email">Email address:</label>
         <input type="email" class="form-control" id="email">
       </div>
       <div class="form-group">
         <label for="pwd">Password:</label>
-        <input type="password" class="form-control" id="pwd">
+        <input type="password" name="pwd" class="form-control" id="pwd">
       </div>
       <div class="checkbox">
         <label><input type="checkbox"> Remember me</label>

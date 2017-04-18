@@ -42,9 +42,6 @@ public class Test {
         props.put(Context.PROVIDER_URL, "http-remoting://" + host + ":" + port);
         props.put("remote.connection.default.host", host);
         props.put("remote.connection.default.port", port);
-		props.put("remote.connection.default.username", "vava");
-		props.put("remote.connection.default.password", "vava");
-
 
 		return new InitialContext(props);
     }

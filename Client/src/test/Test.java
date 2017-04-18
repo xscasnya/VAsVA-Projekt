@@ -15,7 +15,7 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 		Context context = createRemoteEjbContext("localhost", "8180");
-		TestBeanRemote remote = (TestBeanRemote)context.lookup("ejb:/Server_ejb exploded//TestBean!test.TestBeanRemote");
+		TestBeanRemote remote = (TestBeanRemote)context.lookup("ejb:/ServerEJB//TestBean!test.TestBeanRemote");
 		System.out.println(remote.testMe("Hello"));
 	}
 

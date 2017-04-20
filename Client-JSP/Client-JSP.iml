@@ -19,7 +19,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="JBoss Aplikac" level="application_server_libraries" />
     <orderEntry type="module" module-name="Server" />
+    <orderEntry type="library" scope="PROVIDED" name="JBoss 10.2.0.Final" level="application_server_libraries" />
   </component>
 </module>

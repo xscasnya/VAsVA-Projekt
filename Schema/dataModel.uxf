@@ -12,6 +12,7 @@
     <panel_attributes>user
 --
 -id: long
+-email: varchar
 -nickname: varchar
 -password: varchar
 -registered_at: timestamp</panel_attributes>

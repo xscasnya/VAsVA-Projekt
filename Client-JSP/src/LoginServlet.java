@@ -1,3 +1,6 @@
+import test.TestBeanRemote;
+
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,10 +15,13 @@ import java.io.IOException;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
+    @EJB
+    TestBeanRemote remote;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String heslo = req.getParameter("pwd");
-        resp.getWriter().print(heslo);
+        resp.getWriter().print(heslo + " " + remote.testMe("your ass"));
 
 
     }

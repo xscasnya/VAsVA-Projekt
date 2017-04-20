@@ -1,4 +1,4 @@
-<%--
+<%@ page import="test.TestBeanRemote" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 18.04.2017
@@ -16,6 +16,7 @@
     out.println("Your IP address is " + request.getRemoteAddr());
   %>--%>
 
+  <jsp:include page="loginForm.jsp"></jsp:include>
 
   <div class="col-md-4"></div>
   <div class="col-md-4" style="margin-top: 10%;">
@@ -23,7 +24,7 @@
     <form action="LoginServlet" method="post">
       <div class="form-group">
         <label for="email">Email address:</label>
-        <input type="email" class="form-control" id="email">
+        <input type="email" class="form-control" id="email" placeholder="<% out.print(((TestBeanRemote) session.getAttribute("remoteInterface")).testMe("bam")); %>">
       </div>
       <div class="form-group">
         <label for="pwd">Password:</label>

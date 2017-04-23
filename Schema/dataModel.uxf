@@ -11,10 +11,10 @@
     </coordinates>
     <panel_attributes>user
 --
--id: long
--email: varchar
--nickname: varchar
--password: varchar
+-id: int
+-email: varchar 20
+-nickname: varchar 10
+-password: varchar 20
 -registered_at: timestamp</panel_attributes>
     <additional_attributes/>
   </element>
@@ -28,12 +28,12 @@
     </coordinates>
     <panel_attributes>room
 --
--id: long
--name: varchar
--password: varchar
--type_id: long
+-id: int
+-name: varchar 30
+-password: varchar 20
+-type_id: int
 -created_at: timestamp
--created_by</panel_attributes>
+-created_by int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -46,10 +46,10 @@
     </coordinates>
     <panel_attributes>user_in_room
 --
--user_id: long
--room_id: long
+-user_id: int
+-room_id: int
 -joined_at: timestamp
--permision_id: long</panel_attributes>
+-permision_id: int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -86,8 +86,8 @@ m2=*</panel_attributes>
     </coordinates>
     <panel_attributes>permision_type
 --
--id:long
--type: varchar</panel_attributes>
+-id:int
+-type: varchar 10</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -101,5 +101,31 @@ m2=*</panel_attributes>
     <panel_attributes>m1=1
 m2=*</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1170</x>
+      <y>300</y>
+      <w>160</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>room_type
+--
+-id:int
+-type: varchar 10</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1070</x>
+      <y>350</y>
+      <w>120</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

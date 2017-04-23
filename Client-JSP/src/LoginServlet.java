@@ -22,6 +22,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String heslo = req.getParameter("pwd");
         resp.getWriter().print(heslo + " " + remote.testMe("your ass"));
+        resp.getWriter().print(remote.getUsers());
 
 
     }

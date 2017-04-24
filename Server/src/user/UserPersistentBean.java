@@ -13,20 +13,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 /**
  * Jednoducha stateless session beana
  */
 @Stateless
-@Remote(TestBeanRemote.class)
-public class TestBean implements TestBeanRemote {
+@Remote(UserPersistentBeanRemote.class)
+public class UserPersistentBean implements UserPersistentBeanRemote {
 
     private PGPoolingDataSource source;
     private DatabaseConfig cfg;
 
     /**
-     * Biznis logika ktora vrati rozsireny textovy retazec
+     * Biznis logika ktora sa stara o usera
      */
 
     public String testMe(String input) {

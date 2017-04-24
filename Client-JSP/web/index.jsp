@@ -22,6 +22,9 @@
       </div>
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
+  <c:if test="${messages != null}">
+    <p class="error-page">Bad username or password.</p>
+  </c:if>
   </div>
   <div class="col-md-4"></div>
   </body>

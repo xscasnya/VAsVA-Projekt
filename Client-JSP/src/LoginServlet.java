@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @WebServlet("/LoginServlet")
@@ -17,17 +19,39 @@ public class LoginServlet extends HttpServlet {
     UserPersistentBeanRemote remote;
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = remote.getAuthentication(req.getParameter("nickname"),req.getParameter("pwd"));
-        req.getSession().setAttribute("user",user);
+        String username = req.getParameter("nickname");
+        String password = req.getParameter("pwd");
+        Map<String, String> messages = new HashMap<String, String>();
 
-        if(user == null) {
-            resp.sendRedirect("index.jsp");
+
+        if (username == null || username.isEmpty()) {
+            messages.put("username", "Please enter username");
         }
 
-        else {
-            resp.sendRedirect("dashboard.jsp");
+        if (password == null || password.isEmpty()) {
+            messages.put("password", "Please enter password");
         }
+
+        if (messages.isEmpty()) {
+            User user = remote.getAuthentication(username,password);
+
+            if (user != null) {
+                req.getSession().setAttribute("user", user);
+                resp.sendRedirect(req.getContextPath() + "/pages/dashboard.jsp");
+                return;
+            } else {
+                messages.put("login", "Unknown login, please try again");
+            }
+        }
+
+        req.setAttribute("messages", messages);
+        req.getRequestDispatcher("/index.jsp").forward(req, resp);
 
     }
 }

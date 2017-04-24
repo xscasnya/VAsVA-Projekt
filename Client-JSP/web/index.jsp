@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
-    <title>Filmovy Watchlist</title>
+    <title>Movie Watchlist</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
   </head>
   <body>
@@ -13,8 +13,8 @@
     <h1 class="center">Movie Watchlist</h1>
     <form action="LoginServlet" method="post">
       <div class="form-group">
-        <label for="email">Email address:</label>
-        <input type="email" class="form-control" id="email">
+        <label for="nickname">Nickname:</label>
+        <input type="text" name="nickname" class="form-control" id="nickname">
       </div>
       <div class="form-group">
         <label for="pwd">Password:</label>

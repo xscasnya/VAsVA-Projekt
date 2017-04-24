@@ -1,4 +1,5 @@
-import test.TestBeanRemote;
+import model.User;
+import user.UserPersistentBeanRemote;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -16,14 +17,24 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
 
     @EJB
-    TestBeanRemote remote;
+    UserPersistentBeanRemote remote;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String heslo = req.getParameter("pwd");
-        resp.getWriter().print(heslo + " " + remote.testMe("your ass"));
-        resp.getWriter().print(remote.getUsers());
+        //resp.getWriter().print(heslo + " " + remote.testMe("your ass"));
+        //resp.getWriter().print(remote.getAuthentication(req.getA));
+        resp.getWriter().print("Nick: "+ req.getParameter("nickname") + "\n Password: " + req.getParameter("pwd"));
 
+        User user = remote.getAuthentication(req.getParameter("nickname"),req.getParameter("pwd"));
+        req.getSession().setAttribute("user",user);
+
+        if(user == null) {
+            resp.sendRedirect("index.jsp");
+        }
+
+        else {
+            resp.sendRedirect("dashboard.jsp");
+        }
 
     }
 }

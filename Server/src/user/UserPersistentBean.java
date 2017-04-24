@@ -1,6 +1,7 @@
-package test;
+package user;
 
 import config.DatabaseConfig;
+import model.User;
 import org.postgresql.ds.PGPoolingDataSource;
 
 
@@ -33,7 +34,11 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
     }
 
 
-    public String getUsers() {
+    public User getAuthentication(String nickname, String password) {
+        if(nickname.equals("") || password.equals("")){
+            return null;
+        }
+
         if (source == null) {
             connectToDatabase();
         }
@@ -41,20 +46,23 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
         PreparedStatement stmt = null;
         Connection conn = null;
 
-
         try {
             conn = source.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
-            return "zla connection";
+            return null;
         }
-        String getSQL = "SELECT * FROM users";
+
+        String getSQL = "SELECT * FROM users WHERE nickname = ? AND password = ?";
         try {
             stmt = conn.prepareStatement(getSQL);
+            stmt.setString(1,nickname);
+            stmt.setString(2,password);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getString("email");
+                User get = processRow(rs);
+                return get;
             }
 
 
@@ -62,21 +70,30 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
             // TODO Auto-generated catch block
             e.printStackTrace();
 
-            return "zla query";
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
             }
-            ;
+
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
             }
-            ;
+
         }
 
-        return "failed";
+        return null;
+    }
+
+    public User processRow(ResultSet rs) {
+        try {
+            return new User(rs.getInt("id"), rs.getString("email"), rs.getString("nickname"), rs.getString("password"), rs.getTimestamp("registered_at"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public void connectToDatabase() {

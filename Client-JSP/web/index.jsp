@@ -3,7 +3,7 @@
 <html>
   <head>
     <title>Movie Watchlist</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <c:import url="styles.jsp"></c:import>
   </head>
   <body>
 
@@ -20,15 +20,11 @@
         <label for="pwd">Password:</label>
         <input type="password" name="pwd" class="form-control" id="pwd">
       </div>
-      <div class="checkbox">
-        <label><input type="checkbox"> Remember me</label>
-      </div>
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
   </div>
   <div class="col-md-4"></div>
   </body>
 
-<script src="${pageContext.request.contextPath}/styles/bootstrap-3.3.7-dist/js/bootstrap.min.js"/>
-<script src="${pageContext.request.contextPath}/styles/bootstrap-3.3.7-dist/js/npm.js"/>
+<c:import url="dependancies.jsp"></c:import>
 </html>

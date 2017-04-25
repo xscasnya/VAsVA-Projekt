@@ -1,7 +1,13 @@
 package config;
 
+import org.postgresql.ds.PGPoolingDataSource;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
- * Author : Andrej Ščasný
+ * Author : Andrej Ščasný, Dominik - singleton
  * Date : 23.04.2017
  */
 public class DatabaseConfig {
@@ -12,64 +18,71 @@ public class DatabaseConfig {
     private int portNumber;
     private int maxConnections;
 
-    public DatabaseConfig(String serverName, String databaseName, String user, String password, int portNumber, int maxConnections) {
-        this.serverName = serverName;
-        this.databaseName = databaseName;
-        this.user = user;
-        this.password = password;
-        this.portNumber = portNumber;
-        this.maxConnections = maxConnections;
+    private PGPoolingDataSource source;
+
+    private static DatabaseConfig instance;
+
+
+    private DatabaseConfig() {
+     //   loadProperties(); // vytvori v sebe novy objekt
+        connectToDatabase();
     }
 
-    public DatabaseConfig() {
+    public static DatabaseConfig getInstance() {
+        if(instance == null) {
+            // load config
+            instance = new DatabaseConfig();
+        }
+
+        return instance;
+    }
+
+    public PGPoolingDataSource getSource() {
+        return source;
+    }
+
+    // Nacitanie properties z konfiguracneho suboru configuration.properties
+    private void loadProperties() {
+
+        Properties config = new Properties();
+        try {
+
+            String path = System.getProperty("beans.dir");
+            config.load(new FileInputStream("bin/configuration.properties"));
+            System.out.println("Konfiguracny subor bol nacitany");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Nepodarilo sa nacitat konfig subor");
+        }
+
+        instance.serverName = (config.getProperty("serverName"));
+        instance.databaseName = (config.getProperty("databaseName"));
+        instance.password = (config.getProperty("userPassword"));
+        instance.user = (config.getProperty("userName"));
+        instance.maxConnections = (5);
+        instance.portNumber = (5432);
+    }
+
+    private void connectToDatabase() {
+        //loadProperties();
+        source = new PGPoolingDataSource();
+       /* source.setServerName(cfg.getServerName());
+        source.setDatabaseName(cfg.getDatabaseName());
+        source.setUser(cfg.getUser());
+        source.setPassword(cfg.getPassword());
+        source.setPortNumber(cfg.getPortNumber());
+        source.setInitialConnections(cfg.getMaxConnections());*/
+
+
+        source.setServerName("ec2-46-137-97-169.eu-west-1.compute.amazonaws.com");
+        source.setDatabaseName("d3vjs6m0fc6sfh");
+        source.setUser("tcqqyxjvdsbzko");
+        source.setPassword("a0be6dfc4a8755fd934cfebf7afd53ca9d7deac0f2c63f26a4eb0a80cdc36aad");
+        source.setSsl(true);
+        source.setSslfactory("org.postgresql.ssl.NonValidatingFactory");
+
 
     }
 
-    public int getPortNumber() {
-        return portNumber;
-    }
 
-    public void setPortNumber(int portNumber) {
-        this.portNumber = portNumber;
-    }
-
-    public int getMaxConnections() {
-        return maxConnections;
-    }
-
-    public void setMaxConnections(int maxConnections) {
-        this.maxConnections = maxConnections;
-    }
-
-    public String getServerName() {
-        return serverName;
-    }
-
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
-    }
-
-    public String getDatabaseName() {
-        return databaseName;
-    }
-
-    public void setDatabaseName(String databaseName) {
-        this.databaseName = databaseName;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

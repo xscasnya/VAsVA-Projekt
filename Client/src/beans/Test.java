@@ -1,4 +1,6 @@
-package user;
+package beans;
+import beans.user.UserPersistentBeanRemote;
+
 import java.util.Hashtable;
 
 import javax.naming.Context;
@@ -15,7 +17,7 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 		Context context = createRemoteEjbContext("localhost", "8180");
-		UserPersistentBeanRemote remote = (UserPersistentBeanRemote)context.lookup("ejb:/ServerEJB//UserPersistentBean!user.UserPersistentBeanRemote");
+		UserPersistentBeanRemote remote = (UserPersistentBeanRemote)context.lookup("ejb:/ServerEJB//UserPersistentBean!beans.user.UserPersistentBeanRemote");
 		System.out.println(remote.testMe("Hello"));
 	}
 

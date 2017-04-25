@@ -1,5 +1,5 @@
 import model.User;
-import user.UserPersistentBeanRemote;
+import beans.user.UserPersistentBeanRemote;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +42,7 @@ public class LoginServlet extends HttpServlet {
             User user = remote.getAuthentication(username,password);
 
             if (user != null) {
-                req.getSession().setAttribute("user", user);
+                req.getSession().setAttribute("beans", user);
                 resp.sendRedirect(req.getContextPath() + "/pages/dashboard.jsp");
                 return;
             } else {

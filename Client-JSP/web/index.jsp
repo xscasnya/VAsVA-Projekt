@@ -14,11 +14,11 @@
     <form action="LoginServlet" method="post">
       <div class="form-group">
         <label for="nickname">Nickname:</label>
-        <input type="text" name="nickname" class="form-control" id="nickname">
+        <input type="text" name="nickname" class="form-control" id="nickname" value="admin">
       </div>
       <div class="form-group">
         <label for="pwd">Password:</label>
-        <input type="password" name="pwd" class="form-control" id="pwd">
+        <input type="password" name="pwd" class="form-control" id="pwd" value="admin">
       </div>
       <button type="submit" class="btn btn-default">Submit</button>
     </form>

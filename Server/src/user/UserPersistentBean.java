@@ -1,6 +1,7 @@
 package user;
 
 import config.DatabaseConfig;
+import model.Room;
 import model.User;
 import org.postgresql.ds.PGPoolingDataSource;
 
@@ -13,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -34,6 +37,55 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
     }
 
 
+    public List<Room> getUserRooms(int id) {
+
+        if (source == null) {
+            connectToDatabase();
+        }
+
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        List<Room> rooms = null;
+
+        try {
+            conn = source.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String getSQL = "SELECT * from room r JOIN user_in_room ur ON r.id = ur.user_id where ur.user_id = ?";
+        try {
+            rooms = new ArrayList<Room>();
+            stmt = conn.prepareStatement(getSQL);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Room get = processRowRoom(rs);
+                rooms.add(get);
+            }
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+            }
+
+            return rooms;
+        }
+    }
+
     public User getAuthentication(String nickname, String password) {
         if(nickname.equals("") || password.equals("")){
             return null;
@@ -45,6 +97,7 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
 
         PreparedStatement stmt = null;
         Connection conn = null;
+        User user = null;
 
         try {
             conn = source.getConnection();
@@ -61,8 +114,7 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                User get = processRow(rs);
-                return get;
+                user = processRow(rs);
             }
 
 
@@ -83,7 +135,18 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
 
         }
 
-        return null;
+        return user;
+
+    }
+
+    public Room processRowRoom(ResultSet rs) {
+        try {
+            return new Room(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getInt("type_id"), rs.getTimestamp("created_at"), rs.getInt("created_by"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public User processRow(ResultSet rs) {

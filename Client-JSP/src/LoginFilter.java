@@ -22,11 +22,8 @@ public class LoginFilter implements Filter {
 
         if (req.getSession().getAttribute("user") == null) { //checks if there's a LOGIN_USER set in session...
             res.sendRedirect(contextPath + "/LoginServlet"); //or page where you want to redirect
-        } else {
-            String userType = (String) req.getSession().getAttribute("user");
-            res.sendRedirect(contextPath + "/pages/dashboard.jsp"); //or page where you want to
-            fc.doFilter(request, response);
         }
+            fc.doFilter(request, response);
     }
 
     @Override

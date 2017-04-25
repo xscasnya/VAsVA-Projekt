@@ -16,7 +16,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>LT</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+            <span class="logo-lg"><b>Movie Watchlist</b></span>
         </a>
 
         <!-- Header Navbar -->
@@ -96,35 +96,16 @@
                 </div>
             </div>
 
-            <!-- search form (Optional) -->
-            <form action="#" method="get" class="sidebar-form">
-                <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search...">
-                    <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-                </div>
-            </form>
-            <!-- /.search form -->
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">HEADER</li>
+                <li class="header">ROOMS</li>
                 <!-- Optionally, you can add icons to the links -->
-                <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#">Link in level 2</a></li>
-                        <li><a href="#">Link in level 2</a></li>
-                    </ul>
-                </li>
+                <%--<li class="active"><a href="#"><i class="fa fa-users"></i> <span>Room A</span></a></li>--%>
+                <%--<li><a href="#"><i class="fa fa-users"></i> <span>Room B</span></a></li>--%>
+
+
+
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -137,7 +118,7 @@
         <section class="content-header">
             <h1>
                 Page Header
-                <small>Optional description</small>
+                <small>HERE is optional description</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -166,7 +147,7 @@
     </footer>
 
 
-<c:import url="sidebar.jsp"></c:import>
+<%--<c:import url="sidebar.jsp"></c:import>--%>
 </div>
 </body>
 

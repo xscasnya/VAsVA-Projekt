@@ -1,14 +1,23 @@
+import model.Room;
+import model.User;
+import user.UserPersistentBeanRemote;
+
+import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebFilter("/pages/*")
 public class LoginFilter implements Filter {
 
     private String contextPath;
+
+    @EJB
+    UserPersistentBeanRemote remote;
 
     @Override
     public void init(FilterConfig fc) throws ServletException {
@@ -23,7 +32,15 @@ public class LoginFilter implements Filter {
         if (req.getSession().getAttribute("user") == null) { //checks if there's a LOGIN_USER set in session...
             res.sendRedirect(contextPath + "/LoginServlet"); //or page where you want to redirect
         }
-            fc.doFilter(request, response);
+        else {
+
+            if (req.getSession().getAttribute("rooms") == null) {
+                List<Room> rooms = remote.getUserRooms(((User)req.getSession().getAttribute("user")).getId());
+                req.getSession().setAttribute("rooms", rooms);
+            }
+
+        }
+        fc.doFilter(request, response);
     }
 
     @Override

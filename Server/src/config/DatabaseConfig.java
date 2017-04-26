@@ -24,11 +24,7 @@ public class DatabaseConfig {
 
 
     private DatabaseConfig() {
-<<<<<<< HEAD
-        loadProperties();
-=======
-        //loadProperties(); // vytvori v sebe novy objekt
->>>>>>> 1b672ed07fe0df7f8562f63c725d1509c727e979
+        loadProperties(); // vytvori v sebe novy objekt
         connectToDatabase();
     }
 
@@ -52,13 +48,10 @@ public class DatabaseConfig {
 
         Properties config = new Properties();
         try {
-<<<<<<< HEAD
             System.out.println("CLASS:  " + this.getClass().getResource("/config/configuration.properties"));
             InputStream stream = (this.getClass().getClassLoader().getResourceAsStream("/config/configuration.properties"));
             config.load(stream);
-=======
-            config.load(inStream);
->>>>>>> 1b672ed07fe0df7f8562f63c725d1509c727e979
+
             System.out.println("Konfiguracny subor bol nacitany");
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,15 +67,7 @@ public class DatabaseConfig {
     }
 
     private void connectToDatabase() {
-        //loadProperties();
         this.source = new PGPoolingDataSource();
-       /* source.setServerName(cfg.getServerName());
-        source.setDatabaseName(cfg.getDatabaseName());
-        source.setUser(cfg.getUser());
-        source.setPassword(cfg.getPassword());
-        source.setPortNumber(cfg.getPortNumber());
-        source.setInitialConnections(cfg.getMaxConnections());*/
-
 
         this.source.setServerName(this.serverName);
         this.source.setDatabaseName(this.databaseName);
@@ -92,8 +77,6 @@ public class DatabaseConfig {
         this.source.setMaxConnections(this.maxConnections);
         this.source.setSsl(true);
         this.source.setSslfactory("org.postgresql.ssl.NonValidatingFactory");
-
-
     }
 
 

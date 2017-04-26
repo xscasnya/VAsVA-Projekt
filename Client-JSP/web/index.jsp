@@ -3,7 +3,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Movie Watchlist</title>
@@ -18,30 +18,43 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="${path}/styles/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/styles/dist/css/skins/skin-blue.min.css">
-  </head>
-  <body>
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <b>Movie Watchlist</b>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
 
+        <form action="Login" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" id="nickname" class="form-control" placeholder="Nickname" name="nickname" value="admin">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" id="pwd" placeholder="Password" name="pwd" value="admin">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-4"></div>
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
+                <div class="col-xs-4"></div>
+            </div>
+        </form>
 
-  <div class="col-md-4"></div>
-  <div class="col-md-4" style="margin-top: 10%;">
-    <h1 class="center">Movie Watchlist</h1>
-    <form action="Login" method="post">
-      <div class="form-group">
-        <label for="nickname">Nickname:</label>
-        <input type="text" name="nickname" class="form-control" id="nickname" value="admin">
-      </div>
-      <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" name="pwd" class="form-control" id="pwd" value="admin">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-  <c:if test="${messages != null}">
-    <p class="error-page">Bad username or password.</p>
-  </c:if>
-  </div>
-  <div class="col-md-4"></div>
-  </body>
+        <a href="register.html" class="text-center">Register a new membership</a>
+
+    </div>
+    <!-- /.login-box-body -->
+</div>
+
+</body>
 
 <c:import url="pages/dependancies.jsp"></c:import>
 </html>
+
+

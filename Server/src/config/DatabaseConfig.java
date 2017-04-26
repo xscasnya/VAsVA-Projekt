@@ -1,9 +1,9 @@
 package config;
-
 import org.postgresql.ds.PGPoolingDataSource;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -24,7 +24,7 @@ public class DatabaseConfig {
 
 
     private DatabaseConfig() {
-     //   loadProperties(); // vytvori v sebe novy objekt
+        //loadProperties(); // vytvori v sebe novy objekt
         connectToDatabase();
     }
 
@@ -43,12 +43,12 @@ public class DatabaseConfig {
 
     // Nacitanie properties z konfiguracneho suboru configuration.properties
     private void loadProperties() {
+        InputStream inStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("configuration.properties");
 
         Properties config = new Properties();
         try {
-
-            String path = System.getProperty("beans.dir");
-            config.load(new FileInputStream("bin/configuration.properties"));
+            config.load(inStream);
             System.out.println("Konfiguracny subor bol nacitany");
         } catch (IOException e) {
             e.printStackTrace();

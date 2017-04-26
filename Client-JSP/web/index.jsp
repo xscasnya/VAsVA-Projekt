@@ -3,7 +3,7 @@
 <html>
   <head>
     <title>Movie Watchlist</title>
-    <c:import url="styles.jsp"></c:import>
+    <c:import url="pages/styles.jsp"></c:import>
   </head>
   <body>
 
@@ -29,5 +29,5 @@
   <div class="col-md-4"></div>
   </body>
 
-<c:import url="dependancies.jsp"></c:import>
+<c:import url="pages/dependancies.jsp"></c:import>
 </html>

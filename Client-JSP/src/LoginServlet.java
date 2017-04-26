@@ -42,8 +42,8 @@ public class LoginServlet extends HttpServlet {
             User user = remote.getAuthentication(username,password);
 
             if (user != null) {
-                req.getSession().setAttribute("beans", user);
-                resp.sendRedirect(req.getContextPath() + "/pages/dashboard.jsp");
+                req.getSession().setAttribute("user", user);
+                resp.sendRedirect(req.getContextPath() + "/content/dashboard.jsp");
                 return;
             } else {
                 messages.put("login", "Unknown login, please try again");

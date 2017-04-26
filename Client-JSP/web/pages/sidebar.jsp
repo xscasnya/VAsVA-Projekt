@@ -1,4 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
+<c:set var="dashboard" value="${path}/content/dashboard"/>
+<c:set var="createRoom" value="${path}/content/createRoom"/>
 
 <aside class="main-sidebar">
 
@@ -8,10 +13,10 @@
         <!-- Sidebeansuser panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="../styles/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="${path}/styles/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p><c:out value="${user.nickname}"></c:out></p>
+                <p><c:out value="${user.nickname}"/></p>
                 <!-- Status -->
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -20,16 +25,16 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <%--<li class="header">ROOMS</li>--%>
-            <!-- Optionally, you can add icons to the links -->
-            <%--<li class="active"><a href="#"><i class="fa fa-users"></i> <span>Room A</span></a></li>--%>
-            <%--<li><a href="#"><i class="fa fa-users"></i> <span>Room B</span></a></li>--%>
-            <li class="active"><a href="#"><i class="fa fa-home"></i><span><b>Home</b></span></a></li>
-            <li><a href="#"><i class="fa fa-plus-square"></i> <span>Create room</span></a></li>
+            <li class="${requestPath == dashboard ? 'active' : ''}" >
+                <a href="${dashboard}"><i class="fa fa-home"></i><span><b>Home</b></span></a></li>
+            <li class="${requestPath == createRoom ? 'active' : ''}">
+                <a href="${createRoom}"><i class="fa fa-plus-square"></i>
+                    <span>Create room</span></a>
+            </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-users"></i> <span>My rooms</span>
-                        <span class="pull-right-container">
+                    <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
@@ -37,11 +42,8 @@
                     <c:forEach items="${rooms}" var="r">
                         <li><a href="#"><i class="fa"></i> <c:out value="${r.name}"/> </a></li>
                     </c:forEach>
-
                 </ul>
             </li>
-
-
 
         </ul>
         <!-- /.sidebar-menu -->

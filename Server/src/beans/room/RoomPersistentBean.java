@@ -3,6 +3,7 @@ package beans.room;
 import beans.user.UserPersistentBeanRemote;
 import config.DatabaseConfig;
 import model.Room;
+import model.RoomType;
 import org.postgresql.ds.PGPoolingDataSource;
 
 import javax.ejb.Remote;
@@ -66,6 +67,59 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
     }
 
+    @Override
+    public List<RoomType> getRoomTypes() {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        List<RoomType> rooms = null;
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String getSQL = "SELECT * FROM room_type";
+        try {
+            rooms = new ArrayList<RoomType>();
+            stmt = conn.prepareStatement(getSQL);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                RoomType get = processRowRoomType(rs);
+                rooms.add(get);
+            }
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+            }
+
+            return rooms;
+        }
+    }
+
+
+    public RoomType processRowRoomType(ResultSet rs) {
+        try {
+            return new RoomType(rs.getInt("id"),rs.getString("type"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public Room processRowRoom(ResultSet rs) {
         try {
@@ -74,7 +128,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             e.printStackTrace();
             return null;
         }
-
     }
 
 

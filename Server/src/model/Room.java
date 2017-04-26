@@ -24,6 +24,14 @@ public class Room implements Serializable {
         this.created_by = created_by;
     }
 
+    // Constructor used when creating room and sending object to EJB
+    public Room(String name, String password, int type_id, Timestamp created_at, int created_by) {
+        this.name = name;
+        this.password = password;
+        this.type_id = type_id;
+        this.created_at = created_at;
+        this.created_by = created_by;
+    }
 
     public int getId() {
         return id;

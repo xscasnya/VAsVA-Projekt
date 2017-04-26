@@ -14,4 +14,5 @@ public interface RoomPersistentBeanRemote {
 
     public List<Room> getUserRooms(int id);
     public List<RoomType> getRoomTypes();
+    public boolean createRoom(Room room);
 }

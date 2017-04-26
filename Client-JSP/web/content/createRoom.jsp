@@ -88,7 +88,7 @@
                         </div>
                     </form>
                 </div>
-                <c:if test="${valid == true}">
+                <c:if test="${ejbError == false}">
                     <div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h4><i class="icon fa fa-check"></i> Success!</h4>
@@ -100,6 +100,13 @@
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h4><i class="icon fa fa-warning"></i> Alert!</h4>
                         Please fill all fields !
+                    </div>
+                </c:if>
+                <c:if test="${ejbError == true}">
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Error!</h4>
+                            There was an error on server side. Please check loggs or let trained monkeys solve this.
                     </div>
                 </c:if>
             </div>

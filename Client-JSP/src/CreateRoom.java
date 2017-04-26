@@ -1,6 +1,7 @@
 import beans.room.RoomPersistentBeanRemote;
 import model.Room;
 import model.RoomType;
+import model.User;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -27,16 +30,27 @@ public class CreateRoom extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("RoomName");
+        String roomName = req.getParameter("RoomName");
         String password = req.getParameter("password");
         String description =  req.getParameter("description");
         String roomType = req.getParameter("roomtype");
 
-        if(username.equals("") || password.equals("") || description.equals("") || roomType.equals("")) {
+        if(roomName.equals("") || password.equals("") || description.equals("") || roomType.equals("")) {
             req.setAttribute("valid",false);
         }
         else {
             req.setAttribute("valid",true);
+            req.setAttribute("ejbError",true);
+
+            int userID = ((User)req.getSession().getAttribute("user")).getId();
+            Timestamp now = new Timestamp(Calendar.getInstance().getTime().getTime());
+            Room room = new Room(roomName,password,Integer.parseInt(roomType),now,userID);
+
+            if(remote.createRoom(room)){
+                req.setAttribute("ejbError",false);
+                req.getSession().setAttribute("rooms",remote.getUserRooms(userID));
+            }
+
         }
 
         req.getRequestDispatcher("/content/createRoom.jsp").forward(req, resp);

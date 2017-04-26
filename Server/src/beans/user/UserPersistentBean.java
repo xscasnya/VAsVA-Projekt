@@ -1,22 +1,16 @@
 package beans.user;
 
 import config.DatabaseConfig;
-import model.Room;
 import model.User;
-import org.postgresql.ds.PGPoolingDataSource;
-
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+
 
 /**
  * Jednoducha stateless session beana

@@ -29,7 +29,7 @@ public class LoginFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         if (req.getSession().getAttribute("user") == null) { //checks if there's a LOGIN_USER set in session...
-            res.sendRedirect(contextPath + "/LoginServlet"); //or page where you want to redirect
+            res.sendRedirect(contextPath + "/Login"); //or page where you want to redirect
         }
         else {
 

@@ -12,15 +12,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/Login")
+public class Login extends HttpServlet {
 
     @EJB
     UserPersistentBeanRemote remote;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("index.jsp").forward(req, resp);
+        req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 
             if (user != null) {
                 req.getSession().setAttribute("user", user);
-                resp.sendRedirect(req.getContextPath() + "/content/dashboard.jsp");
+                resp.sendRedirect(req.getContextPath() + "/content/dashboard");
                 return;
             } else {
                 messages.put("login", "Unknown login, please try again");

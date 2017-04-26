@@ -1,6 +1,7 @@
 package beans.room;
 
 import model.Room;
+import model.RoomType;
 
 import javax.ejb.Remote;
 import java.util.List;
@@ -12,4 +13,5 @@ import java.util.List;
 public interface RoomPersistentBeanRemote {
 
     public List<Room> getUserRooms(int id);
+    public List<RoomType> getRoomTypes();
 }

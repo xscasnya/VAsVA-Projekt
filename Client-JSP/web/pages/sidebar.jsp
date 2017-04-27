@@ -4,6 +4,7 @@
 <c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <c:set var="dashboard" value="${path}/content/dashboard"/>
 <c:set var="createRoom" value="${path}/content/createRoom"/>
+<c:set var="joinRoom" value="${path}/content/joinRoom"/>
 
 <aside class="main-sidebar">
 
@@ -26,11 +27,18 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <li class="${requestPath == dashboard ? 'active' : ''}" >
-                <a href="${dashboard}"><i class="fa fa-home"></i><span><b>Home</b></span></a></li>
+                <a href="${dashboard}"><i class="fa fa-home"></i>
+                    <span><b>Home</b></span>
+                </a>
+            </li>
             <li class="${requestPath == createRoom ? 'active' : ''}">
                 <a href="${createRoom}"><i class="fa fa-plus-square"></i>
-                    <span>Create room</span></a>
+                    <span>Create room</span>
+                </a>
             </li>
+            <li class="${requestPath == joinRoom ? 'active' : ''}">
+                <a href="${joinRoom}"><i class="fa fa-plus-square"></i>
+                    <span>Join room</span></a>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-users"></i> <span>My rooms</span>

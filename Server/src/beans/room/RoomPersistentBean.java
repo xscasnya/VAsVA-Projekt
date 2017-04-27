@@ -11,6 +11,7 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -94,6 +95,65 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
 
         return success;
+    }
+
+    public boolean insertUserToRoom(int userID, int roomID) {
+        Boolean success = true;
+        PreparedStatement insertRoom = null;
+        PreparedStatement insertUserRoom = null;
+        Connection conn = null;
+
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        try {
+            conn.setAutoCommit(false);
+            insertUserRoom = conn.prepareStatement("INSERT INTO user_in_room VALUES (?,?,?,?)");
+
+            insertUserRoom.setInt(1, userID);
+            insertUserRoom.setInt(2, roomID);
+            insertUserRoom.setTimestamp(3, new Timestamp(Calendar.getInstance().getTime().getTime()));
+            insertUserRoom.setInt(4,2);
+
+            insertUserRoom.executeUpdate();
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            success = false;
+
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
+        } finally {
+            try {
+                if (insertRoom != null) insertRoom.close();
+            } catch (Exception e) {
+            }
+
+            try {
+                if(insertUserRoom != null) insertUserRoom.close();
+            } catch (SQLException e) {
+
+            }
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+            }
+        }
+
+
+        return success;
+
     }
 
     public List<Room> getUserRooms(int id) {
@@ -183,6 +243,50 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             return rooms;
         }
     }
+
+    public Room getRoom(int id)
+    {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        Room room = null;
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String getSQL = "SELECT * from room WHERE id = ?";
+        try {
+            stmt = conn.prepareStatement(getSQL);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                room = processRowRoom(rs);
+            }
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+            }
+
+            return room;
+        }
+    }
+
 
 
     public RoomType processRowRoomType(ResultSet rs) {

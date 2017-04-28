@@ -1,6 +1,7 @@
 package beans.user;
 
 import config.DatabaseConfig;
+import model.Response;
 import model.User;
 
 import javax.ejb.Remote;
@@ -19,9 +20,12 @@ import java.sql.SQLException;
 @Remote(UserPersistentBeanRemote.class)
 public class UserPersistentBean implements UserPersistentBeanRemote {
 
-    public User getAuthentication(String nickname, String password) {
+    public Response getAuthentication(String nickname, String password) {
+        Response resp = new Response();
         if(nickname.equals("") || password.equals("")){
-            return null;
+            resp.setCode(Response.error);
+            resp.setDescription("Invalid username or password");
+            return resp;
         }
 
         PreparedStatement stmt = null;
@@ -32,10 +36,12 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            resp.setCode(Response.error);
+            resp.setDescription("Connection to database failed!");
+            return resp;
         }
 
-        String getSQL = "SELECT * FROM users WHERE nickname = ? AND password = ?";
+        String getSQL = "SELECT * FROM users WHERE nickname = ? AND password =?";
         try {
             stmt = conn.prepareStatement(getSQL);
             stmt.setString(1,nickname);
@@ -43,13 +49,15 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                user = processRow(rs);
+                resp = processRow(rs);
             }
 
 
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            resp.setCode(Response.error);
+            resp.setDescription("Error with database query.");
 
         } finally {
             try {
@@ -64,23 +72,21 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
 
         }
 
-        return user;
-
+        return resp;
     }
 
 
-    public User processRow(ResultSet rs) {
+    public Response processRow(ResultSet rs) {
+        Response resp = new Response();
         try {
-            return new User(rs.getInt("id"), rs.getString("email"), rs.getString("nickname"), rs.getString("password"), rs.getTimestamp("registered_at"));
+            resp.setData(new User(rs.getInt("id"), rs.getString("email"), rs.getString("nickname"), rs.getString("password"), rs.getTimestamp("registered_at")));
+            return resp;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            resp.setCode(Response.error);
+            resp.setDescription("Error while proccessing row.");
+            return resp;
         }
-
     }
-
-
-
-
 
 }

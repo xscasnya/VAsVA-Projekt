@@ -17,4 +17,6 @@ public interface RoomPersistentBeanRemote {
     public boolean createRoom(Room room);
     public Room getRoom(int id);
     public boolean insertUserToRoom(int userID, int roomID);
+    public boolean isUserInRoom(int userID, int roomID);
+
 }

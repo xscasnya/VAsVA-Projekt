@@ -44,13 +44,20 @@ public class JoinRoom extends HttpServlet{
         req.setAttribute("alreadyJoined",false);
 
         Room room = remote.getRoom(Integer.parseInt(roomID));
+        int userID = ((User)req.getSession().getAttribute("user")).getId();
+
+        if(room == null) {
+            req.setAttribute("ejbError",true);
+            req.getRequestDispatcher("/content/joinRoom.jsp").forward(req, resp);
+            return;
+        }
 
         // kontrola ci user uz nie je v danej roomke
-//        if(){
-//            req.setAttribute("alreadyJoined", true);
-//            req.getRequestDispatcher("/content/joinRoom.jsp").forward(req, resp);
-//            return;
-//        }
+        if(remote.isUserInRoom(userID, room.getId())){
+            req.setAttribute("alreadyJoined", true);
+            req.getRequestDispatcher("/content/joinRoom.jsp").forward(req, resp);
+            return;
+        }
 
 
         if (!room.getPassword().equals(roomPassword) && !room.getPassword().equals("")){
@@ -59,7 +66,6 @@ public class JoinRoom extends HttpServlet{
             return;
         }
 
-        int userID = ((User)req.getSession().getAttribute("user")).getId();
         if(remote.insertUserToRoom(userID, room.getId())){
             req.setAttribute("ejbError",false);
             req.getSession().setAttribute("rooms",remote.getUserRooms(userID));

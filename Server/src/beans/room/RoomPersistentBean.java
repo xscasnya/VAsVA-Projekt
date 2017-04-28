@@ -108,7 +108,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            success = false;
         }
         try {
             conn.setAutoCommit(false);
@@ -132,22 +132,25 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
                 conn.rollback();
             } catch (SQLException e1) {
                 e1.printStackTrace();
+                success = false;
             }
 
         } finally {
             try {
                 if (insertRoom != null) insertRoom.close();
             } catch (Exception e) {
+                success = false;
             }
 
             try {
                 if(insertUserRoom != null) insertUserRoom.close();
             } catch (SQLException e) {
-
+                success = false;
             }
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                success = false;
             }
         }
 
@@ -254,7 +257,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            room = null;
         }
 
         String getSQL = "SELECT * from room WHERE id = ?";
@@ -271,22 +274,68 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-
+            room = null;
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
+                room = null;
             }
 
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                room = null;
             }
 
-            return room;
         }
+        return room;
     }
 
+    public boolean isUserInRoom(int userID, int roomID) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        Room room = null;
+        boolean result = true;
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result = true;
+        }
+
+        String getSQL = "SELECT * from user_in_room WHERE user_id = ? AND room_id = ?";
+        try {
+            stmt = conn.prepareStatement(getSQL);
+            stmt.setInt(1, userID);
+            stmt.setInt(2, roomID);
+            ResultSet rs = stmt.executeQuery();
+
+            result = rs.next();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            result = true;
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                result = true;
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                result = true;
+            }
+
+
+        }
+
+        return result;
+    }
 
 
     public RoomType processRowRoomType(ResultSet rs) {

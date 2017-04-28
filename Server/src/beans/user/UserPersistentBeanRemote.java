@@ -1,5 +1,6 @@
 package beans.user;
 
+import model.Response;
 import model.Room;
 import model.User;
 
@@ -13,6 +14,6 @@ import java.util.List;
 @Remote
 public interface UserPersistentBeanRemote {
 
-	public User getAuthentication(String nickname, String password);
+	public Response getAuthentication(String nickname, String password);
 
 }

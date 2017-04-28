@@ -37,6 +37,15 @@
                 <input type="password" class="form-control" id="pwd" placeholder="Password" name="pwd" value="admin">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
+            <c:if test="${messages != null}">
+            <div class="form-group has-feedback">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Error!</h4>
+                    <c:out value="${messages.error}"/>
+                </div>
+            </div>
+            </c:if>
             <div class="row">
                 <div class="col-xs-4"></div>
                 <div class="col-xs-4">
@@ -45,6 +54,7 @@
                 <div class="col-xs-4"></div>
             </div>
         </form>
+
 
         <a href="register.html" class="text-center">Register a new membership</a>
 

@@ -1,3 +1,4 @@
+import model.Response;
 import model.User;
 import beans.user.UserPersistentBeanRemote;
 
@@ -29,29 +30,22 @@ public class Login extends HttpServlet {
         String password = req.getParameter("pwd");
         Map<String, String> messages = new HashMap<String, String>();
 
-
-        if (username == null || username.isEmpty()) {
-            messages.put("username", "Please enter username");
-        }
-
-        if (password == null || password.isEmpty()) {
-            messages.put("password", "Please enter password");
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            messages.put("error", "Please fill all fields");
         }
 
         if (messages.isEmpty()) {
-            User user = remote.getAuthentication(username,password);
-
-            if (user != null) {
-                req.getSession().setAttribute("user", user);
+            Response res = remote.getAuthentication(username,password);
+            if (res.getCode() != Response.error) {
+                req.getSession().setAttribute("user", (User)res.getData());
                 resp.sendRedirect(req.getContextPath() + "/content/dashboard");
                 return;
             } else {
-                messages.put("login", "Unknown login, please try again");
+                messages.put("error", res.getDescription());
             }
         }
 
         req.setAttribute("messages", messages);
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
-
     }
 }

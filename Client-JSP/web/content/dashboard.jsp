@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="itemsPerPage" value="10"/>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -23,19 +25,9 @@
 
     <!-- Main Header -->
     <header class="main-header">
-
-        <!-- Logo -->
-        <a href="index2.html" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>MW</b></span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Movie Watchlist</b></span>
-        </a>
-
+        <c:import url="../pages/logo.jsp"/>
         <c:import url="../pages/navbar.jsp"/>
     </header>
-
-
     <c:import url="../pages/sidebar.jsp" />
 
     <!-- Content Wrapper. Contains page content -->
@@ -43,15 +35,56 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Page Header
-                <small>HERE is optional description</small>
+                Dashboard
+                <small>All informations</small>
             </h1>
         </section>
 
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
-
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Joined rooms</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <%-- HEADER --%>
+                            <tr>
+                                <th>Name</th>
+                                <th style="width: 100px;"># Users</th>
+                                <th style="width: 100px;"># Films</th>
+                                <th style="width: 400px;">Seen</th>
+                                <th style="width: 100px;">Role</th>
+                            </tr>
+                            <%-- BODY --%>
+                            <c:forEach items="${rooms}" var="r">
+                                <tr>
+                                    <td><a href="#"><c:out value="${r.name}"/></a></td>
+                                    <td><c:out value="${remote.getUsersCount(r.id)}"/></td>
+                                    <td><c:out value="${remote.getFilmsCount(r.id)}"/></td>
+                                    <td>
+                                        <div class="progress progress-xs progress-striped active">
+                                            <div class="progress-bar progress-bar-primary" style="width: 75%"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="label ${r.created_by == user.id ? 'label-success' : 'label-primary'}">${r.created_by == user.id ? 'Owner' : 'Guest'}</span></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li><a href="#">«</a></li>
+                        <c:forEach begin="1" end="5" var="i">
+                            <li><a href="#"> <c:out value="${i}"/></a></li>
+                        </c:forEach>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+            </div>
         </section>
         <!-- /.content -->
     </div>

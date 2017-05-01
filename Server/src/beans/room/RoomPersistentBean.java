@@ -356,5 +356,112 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
     }
 
+    public int getUsersCount(int roomID) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        Room room = null;
+        int result = -1;
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result = -1;
+        }
+
+        String getSQL = "SELECT room_id, count(*) FROM user_in_room " +
+                        "GROUP BY room_id " +
+                        "HAVING room_id = ?";
+        try {
+            stmt = conn.prepareStatement(getSQL);
+            stmt.setInt(1, roomID);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                result = rs.getInt("count");
+            }
+            else{
+                result = -1;
+            }
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            result = -1;
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                result = -1;
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                result = -1;
+            }
+
+
+        }
+
+        return result;
+    }
+
+    public int getFilmsCount(int roomID) {
+        return 0;
+    }
+
+    public int getRoomsCount(int userID) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        Room room = null;
+        int result = -1;
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result = -1;
+        }
+
+        String getSQL = "SELECT user_id, count(*) FROM user_in_room " +
+                        "GROUP BY user_id " +
+                        "HAVING user_id = ?";
+        try {
+            stmt = conn.prepareStatement(getSQL);
+            stmt.setInt(1, userID);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                result = rs.getInt("count");
+            }
+            else{
+                result = -1;
+            }
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            result = -1;
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                result = -1;
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                result = -1;
+            }
+
+
+        }
+
+        return result;
+    }
 
 }

@@ -18,5 +18,9 @@ public interface RoomPersistentBeanRemote {
     public Room getRoom(int id);
     public boolean insertUserToRoom(int userID, int roomID);
     public boolean isUserInRoom(int userID, int roomID);
+    public int getRoomsCount(int userID);
 
+    // mozno do inej beany
+    public int getUsersCount(int roomID);
+    public int getFilmsCount(int roomID);
 }

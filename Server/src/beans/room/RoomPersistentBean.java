@@ -402,6 +402,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
     }
 
     public int getFilmsCount(int roomID) {
+        // TODO ak sa urobia filmy, tak tu potrebujem select
         return 0;
     }
 

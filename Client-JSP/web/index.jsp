@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="localization.localization" />
 
 <html>
 <head>
@@ -26,15 +30,15 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+        <p class="login-box-msg"><fmt:message key="login.signInLabel" /></p>
 
         <form action="Login" method="post">
             <div class="form-group has-feedback">
-                <input type="text" id="nickname" class="form-control" placeholder="Nickname" name="nickname" value="admin">
+                <input type="text" id="nickname" class="form-control" placeholder="<fmt:message key="login.nickname" />" name="nickname" value="admin">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" id="pwd" placeholder="Password" name="pwd" value="admin">
+                <input type="password" class="form-control" id="pwd" placeholder="<fmt:message key="login.password" />" name="pwd" value="admin">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <c:if test="${messages != null}">
@@ -49,14 +53,14 @@
             <div class="row">
                 <div class="col-xs-4"></div>
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat"><fmt:message key="login.signInBtn" /></button>
                 </div>
                 <div class="col-xs-4"></div>
             </div>
         </form>
 
 
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href="register.html" class="text-center"><fmt:message key="login.registerBtn" /></a>
 
     </div>
     <!-- /.login-box-body -->

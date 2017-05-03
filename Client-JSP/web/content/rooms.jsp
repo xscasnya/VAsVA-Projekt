@@ -44,6 +44,9 @@
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Movies</h3>
+                            <a href="${path}/content/addmovie?id=${param['id']}" class="pull-right btn btn-app">
+                                <i class="fa fa-plus"></i> Add new
+                            </a>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">

@@ -41,7 +41,7 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
             return resp;
         }
 
-        String getSQL = "SELECT * FROM users WHERE nickname = ? AND password =?";
+        String getSQL = "SELECT * FROM users WHERE nickname = ? AND password = ?";
         try {
             stmt = conn.prepareStatement(getSQL);
             stmt.setString(1,nickname);

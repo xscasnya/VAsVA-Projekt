@@ -66,7 +66,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             conn.commit();
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             success = false;
 
@@ -124,7 +123,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             conn.commit();
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             success = false;
 
@@ -185,7 +183,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
 
         } finally {
@@ -229,7 +226,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
 
         } finally {
@@ -272,7 +268,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             room = null;
         } finally {
@@ -315,7 +310,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             result = rs.next();
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             result = true;
         } finally {
@@ -386,7 +380,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             result = -1;
         } finally {
@@ -442,7 +435,6 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             result = -1;
         } finally {

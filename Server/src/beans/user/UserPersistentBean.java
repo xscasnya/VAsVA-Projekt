@@ -54,7 +54,6 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
 
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             resp.setCode(Response.error);
             resp.setDescription("Error with database query.");

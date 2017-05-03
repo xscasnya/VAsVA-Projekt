@@ -48,7 +48,7 @@
                 </a>
                 <ul class="treeview-menu" style="display: none;">
                     <c:forEach items="${rooms}" var="r">
-                        <li><a href="#"><i class="fa ${r.created_by == user.id ? 'fa-diamond' : ' '}"></i> <c:out value="${r.name}"/> </a></li>
+                        <li><a href="${path}/content/rooms?id=${r.id}"><i class="fa ${r.created_by == user.id ? 'fa-diamond' : ' '}"></i> <c:out value="${r.name}"/> </a></li>
                     </c:forEach>
                     <%-- fa-star fa-sign-in fa-user-plus  fa-diamond --%>
                 </ul>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="NotFound" value="N/A"/>
 
@@ -37,8 +38,8 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                Add new movie
-                <small>room <c:out value="${param['id']}"/></small>
+                <fmt:message key="addMovie.title"/>
+                <small><fmt:message key="addMovie.smallTitle"/> #<c:out value="${param['id']}"/></small>
             </h1>
         </section>
         <section class="content">
@@ -46,35 +47,35 @@
                 <div class="col-xs-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Find movie</h3>
+                            <h3 class="box-title"><fmt:message key="addMovie.formTitle"/></h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <form role="form" method="post">
                                 <div class="box-body">
                                     <div class="form-group col-xs-4">
-                                        <label for="MovieName">Movie name</label>
+                                        <label for="MovieName"><fmt:message key="addMovie.movieNameLbl"/></label>
                                         <input type="MovieName" class="form-control" id="MovieName" name="MovieName"
-                                               placeholder="MovieName">
+                                               placeholder="<fmt:message key="addMovie.movieNamePh"/>">
                                     </div>
                                     <div class="form-group col-xs-4">
-                                        <label for="Year">Year</label>
+                                        <label for="Year"><fmt:message key="addMovie.yearLbl"/></label>
                                         <input type="text" class="form-control" id="Year" name="Year"
-                                               placeholder="Year">
+                                               placeholder="<fmt:message key="addMovie.yearPh"/>">
                                     </div>
 
                                     <div class="form-group col-xs-4">
-                                        <label>Type </label>
+                                        <label><fmt:message key="addMovie.typeLbl"/> </label>
                                         <select class="form-control" name="MovieType">
                                             <option value="" selected></option>
-                                            <option value="movie">Movie</option>
-                                            <option value="series">Series</option>
-                                            <option value="episode">Episode</option>
+                                            <option value="movie"><fmt:message key="addMovie.typeMovie"/></option>
+                                            <option value="series"><fmt:message key="addMovie.typeSeries"/></option>
+                                            <option value="episode"><fmt:message key="addMovie.typeEpisode"/></option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary">Search</button>
+                                    <button type="submit" class="btn btn-primary"><fmt:message key="addMovie.searchBtn"/></button>
                                 </div>
                             </form>
 
@@ -83,11 +84,11 @@
                                     <table class="table table-hover">
                                         <tbody>
                                         <tr>
-                                            <th>Poster</th>
-                                            <th>Title</th>
-                                            <th>Year</th>
-                                            <th>Type</th>
-                                            <th>Options</th>
+                                            <th><fmt:message key="addMovie.tableColumnPoster"/></th>
+                                            <th><fmt:message key="addMovie.tableColumnTitle"/></th>
+                                            <th><fmt:message key="addMovie.tableColumnYear"/></th>
+                                            <th><fmt:message key="addMovie.tableColumnType"/></th>
+                                            <th><fmt:message key="addMovie.tableColumnOptions"/></th>
                                         </tr>
                                         <c:forEach items="${movies}" var="m">
                                             <tr>

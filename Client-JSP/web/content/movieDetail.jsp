@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="NotFound" value="N/A"/>
 
@@ -36,7 +37,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                Movie Detail
+                <fmt:message key="movieDetail.title"/>
             </h1>
         </section>
         <section class="content">
@@ -56,28 +57,28 @@
                                 <div class="col-xs-4">
                                     <h3><c:out value="${movie.title}"/></h3><br>
                                     <dl class="dl-vertical">
-                                        <dt>Director</dt>
+                                        <dt><fmt:message key="movieDetail.director"/></dt>
                                         <dd><c:out value="${movie.director}"/></dd>
-                                        <dt>Actors</dt>
+                                        <dt><fmt:message key="movieDetail.actors"/></dt>
                                         <dd><c:out value="${movie.actors}"/></dd>
-                                        <dt>Runtime</dt>
+                                        <dt><fmt:message key="movieDetail.runtime"/></dt>
                                         <dd><c:out value="${movie.runtime}"/></dd>
-                                        <dt>Release date</dt>
+                                        <dt><fmt:message key="movieDetail.release"/></dt>
                                         <dd><c:out value="${movie.released}"/></dd>
-                                        <dt>Genre</dt>
+                                        <dt><fmt:message key="movieDetail.genre"/></dt>
                                         <dd><c:out value="${movie.genre}"/></dd>
-                                        <dt>Plot</dt>
+                                        <dt><fmt:message key="movieDetail.plot"/></dt>
                                         <dd><c:out value="${movie.plot}"/>
                                         </dd>
                                     </dl>
 
                                 </div>
                                 <div class="col-xs-4">
-                                    <h3>Ratings</h3>
+                                    <h3><fmt:message key="movieDetail.rating"/></h3>
                                     <dl class="dl-vertical">
                                         <dt>Metascore</dt>
                                         <dd><c:out value="${movie.metascore}"/> </dd>
-                                        <dt>IMDB rating</dt>
+                                        <dt><fmt:message key="movieDetail.imdbRating"/></dt>
                                         <dd><c:out value="${movie.imdbRating}"/> </dd>
                                         <c:forEach var="rating" items="${movie.ratings}">
                                             <dt><c:out value="${rating.source}"/></dt>

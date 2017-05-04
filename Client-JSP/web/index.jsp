@@ -6,6 +6,8 @@
 <fmt:setLocale value="${language}" scope="session"/>
 <fmt:setBundle basename="localization.localization" scope="session"/>
 
+<%-- TODO registracia, response pre room beanu, osetrenie pre polia filmu, description do ROOM table, pridavanie filmov do roomienk, hnusne tlacidlo pri pridani, logovanie u klienta, user profil, podrobnosti o roomke (description a users in room), tabulkz upravit podla modelu, zmenit obsah z kratkeho na dlhy--%>
+
 <html>
 <head>
     <meta charset="utf-8">

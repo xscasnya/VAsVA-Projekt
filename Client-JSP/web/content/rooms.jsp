@@ -45,21 +45,21 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <a href="${path}/content/addmovie?id=${param['id']}" class="btn btn-app">
+                            <a href="${path}/content/addmovie?id=${param['id']}" class="btn btn-app" style="position: absolute; right: 15px;">
                                 <i class="fa fa-plus"></i> <fmt:message key="room.addNewBtn"/>
                             </a>
-                            <h3 class="box-title" style="display: block;"><fmt:message key="room.formTitle"/></h3>
+                            <h3 class="box-title" style="display: block; margin-top: 40px;"><fmt:message key="room.formTitle"/></h3>
                         </div>
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th><fmt:message key="room.tableColumnTitle"/></th>
-                                        <th><fmt:message key="room.tableColumnYear"/></th>
-                                        <th><fmt:message key="room.tableColumnDirector"/></th>
-                                        <th><fmt:message key="room.tableColumnLength"/></th>
-                                        <th><fmt:message key="room.tableColumnGenre"/></th>
-                                        <th><fmt:message key="room.talbeColumnImdbRating"/></th>
+                                        <th style="width: 500px;"><fmt:message key="room.tableColumnTitle"/></th>
+                                        <th style="width: 100px;"><fmt:message key="room.tableColumnYear"/></th>
+                                        <th style="width: 150px;"><fmt:message key="room.tableColumnDirector"/></th>
+                                        <th style="width: 100px;"><fmt:message key="room.tableColumnLength"/></th>
+                                        <th style="width: 200px;"><fmt:message key="room.tableColumnGenre"/></th>
+                                        <th style="width: 150px;"><fmt:message key="room.talbeColumnImdbRating"/></th>
                                         <th><fmt:message key="room.tableColumnSeenBy"/></th>
                                     </tr>
                                 </thead>

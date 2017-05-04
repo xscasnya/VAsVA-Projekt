@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <c:set var="dashboard" value="${path}/content/dashboard"/>
@@ -28,20 +29,20 @@
         <ul class="sidebar-menu">
             <li class="${requestPath == dashboard ? 'active' : ''}" >
                 <a href="${dashboard}"><i class="fa fa-home"></i>
-                    <span><b>Home</b></span>
+                    <span><b><fmt:message key="sidebar.home" /></b></span>
                 </a>
             </li>
             <li class="${requestPath == createRoom ? 'active' : ''}">
                 <a href="${createRoom}"><i class="fa fa-plus-square"></i>
-                    <span>Create room</span>
+                    <span><fmt:message key="sidebar.createRoom" /></span>
                 </a>
             </li>
             <li class="${requestPath == joinRoom ? 'active' : ''}">
                 <a href="${joinRoom}"><i class="fa fa-sign-in"></i>
-                    <span>Join room</span></a>
+                    <span><fmt:message key="sidebar.joinRoom" /></span></a>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-users"></i> <span>My rooms</span>
+                    <i class="fa fa-users"></i> <span><fmt:message key="sidebar.myRooms" /></span>
                     <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                     </span>

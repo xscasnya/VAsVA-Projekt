@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <!-- Header Navbar -->
@@ -27,16 +28,16 @@
 
                         <p>
                             <c:out value="${user.email}"></c:out>
-                            <small>Member since <c:out value="${user.registered_at}"></c:out></small>
+                            <small><fmt:message key="navbar.member"/> <c:out value="${user.registered_at}"></c:out></small>
                         </p>
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
                         <div class="pull-left">
-                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                            <a href="#" class="btn btn-default btn-flat"><fmt:message key="navbar.profileBtn"/></a>
                         </div>
                         <div class="pull-right">
-                            <a href="${path}/content/logout" class="btn btn-default btn-flat">Sign out</a>
+                            <a href="${path}/content/logout" class="btn btn-default btn-flat"><fmt:message key="navbar.signOutBtn"/></a>
                         </div>
                     </li>
                 </ul>

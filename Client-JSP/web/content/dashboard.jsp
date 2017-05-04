@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="itemsPerPage" value="10"/>
+
 
 <html>
     <head>
@@ -35,8 +37,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Dashboard
-                <small>All informations</small>
+                <fmt:message key="dashboard.title"/>
+                <small><fmt:message key="dashboard.titleSmall"/></small>
             </h1>
         </section>
 
@@ -45,18 +47,18 @@
             <!-- Your Page Content Here -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Joined rooms</h3>
+                    <h3 class="box-title"><fmt:message key="dashboard.joinedRooms"/></h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <tbody>
                             <%-- HEADER --%>
                             <tr>
-                                <th>Name</th>
-                                <th style="width: 100px;"># Users</th>
-                                <th style="width: 100px;"># Films</th>
-                                <th style="width: 400px;">Seen</th>
-                                <th style="width: 100px;">Role</th>
+                                <th><fmt:message key="dashboard.tableColumnName"/></th>
+                                <th style="width: 120px;"><fmt:message key="dashboard.tableColumnUsers"/></th>
+                                <th style="width: 100px;"><fmt:message key="dashboard.tableColumnMovies"/></th>
+                                <th style="width: 400px;"><fmt:message key="dashboard.tableColumnSeen"/></th>
+                                <th style="width: 100px;"><fmt:message key="dashboard.tableColumnRole"/></th>
                             </tr>
                             <%-- BODY --%>
                             <c:forEach items="${rooms}" var="r">
@@ -69,6 +71,7 @@
                                             <div class="progress-bar progress-bar-primary" style="width: 75%"></div>
                                         </div>
                                     </td>
+                                    <%-- TODO mozno zmenit na nacitavanie z DB --%>
                                     <td><span class="label ${r.created_by == user.id ? 'label-success' : 'label-primary'}">${r.created_by == user.id ? 'Owner' : 'Guest'}</span></td>
                                 </tr>
                             </c:forEach>

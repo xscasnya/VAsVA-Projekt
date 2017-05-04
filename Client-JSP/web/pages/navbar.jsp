@@ -12,6 +12,33 @@
     <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
 
+            <li class="dropdown tasks-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <i class="glyphicon glyphicon-text-background"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="header"><fmt:message key="navbar.language"/></li>
+                    <li>
+                        <!-- inner menu: contains the actual data -->
+                        <ul class="menu">
+                            <li><!-- English -->
+                                <a href="${path}/content/locale?ln=en">
+                                    <h3><fmt:message key="navbar.english"/></h3>
+                                </a>
+                            </li>
+                            <!-- end English -->
+                            <li><!-- Slovak -->
+                               <a href="${path}/content/locale?ln=sk">
+                                    <h3><fmt:message key="navbar.slovak"/></h3>
+                                </a>
+
+                            </li>
+                            <!-- end Slovak -->
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
                 <!-- Menu Toggle Button -->

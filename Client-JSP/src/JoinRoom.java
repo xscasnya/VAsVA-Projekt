@@ -24,6 +24,7 @@ public class JoinRoom extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        System.out.println(req.getSession().getAttribute("language"));
         req.getRequestDispatcher("/content/joinRoom.jsp").forward(req, resp);
     }
 

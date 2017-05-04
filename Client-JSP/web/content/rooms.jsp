@@ -45,10 +45,10 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <a href="${path}/content/addmovie?id=${param['id']}" class="pull-right btn btn-app">
+                            <a href="${path}/content/addmovie?id=${param['id']}" class="btn btn-app">
                                 <i class="fa fa-plus"></i> <fmt:message key="room.addNewBtn"/>
                             </a>
-                            <h3 class="box-title"><fmt:message key="room.formTitle"/></h3>
+                            <h3 class="box-title" style="display: block;"><fmt:message key="room.formTitle"/></h3>
                         </div>
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-hover">

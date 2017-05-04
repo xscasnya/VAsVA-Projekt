@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale.language}" scope="session" />
+
 <fmt:setLocale value="${language}" scope="session"/>
 <fmt:setBundle basename="localization.localization" scope="session"/>
 
@@ -30,11 +31,11 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg"><fmt:message key="login.signInLabel" /></p>
+        <p class="login-box-msg"><fmt:message key="login.signInLabel"/></p>
 
         <form action="Login" method="post">
             <div class="form-group has-feedback">
-                <input type="text" id="nickname" class="form-control" placeholder="<fmt:message key="login.nickname" />" name="nickname" value="admin">
+                <input type="text" id="nickname" class="form-control" placeholder="<fmt:message key="login.nickname" /> ${language}" name="nickname" value="admin">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

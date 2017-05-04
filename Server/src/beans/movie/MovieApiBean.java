@@ -1,12 +1,12 @@
 package beans.movie;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import config.DatabaseConfig;
 import model.Response;
-import model.SearchApiResponse;
+import model.api.ApiMovie;
+import model.api.SearchApiResponse;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLDecoder;
 
 
 /**
@@ -26,6 +25,8 @@ import java.net.URLDecoder;
 @Stateless
 @Remote(MovieApiBeanRemote.class)
 public class MovieApiBean implements MovieApiBeanRemote {
+    private static final int DO_SEARCH = 1;
+    private static final int DO_GET_ID = 0;
 
     @Override
     public Response searchMovie(String movie, int year, String type) {
@@ -40,25 +41,65 @@ public class MovieApiBean implements MovieApiBeanRemote {
             return resp;
         }
 
-        StringBuilder reqUrl = getReqUrl(movie, year, type);
+        StringBuilder reqUrl = getReqUrl(DO_SEARCH,movie, year, type,"");
 
         try {
             jsonString = sendGet(reqUrl.toString());
         } catch (Exception e) {
+            // TODO Log exception
             e.printStackTrace();
         }
 
-        System.out.println(jsonString);
+       // System.out.println(jsonString);
 
         JsonObject data = parser.parse(jsonString).getAsJsonObject();
         SearchApiResponse apiResp = gson.fromJson(data,SearchApiResponse.class);
-        System.out.println(apiResp.getResponse());
+       // System.out.println(apiResp.getResponse());
         if(!apiResp.getResponse()) {
             resp.setDescription("Error");
             resp.setCode(Response.error);
         }
 
         resp.setData(apiResp.getSearch());
+
+        return resp;
+    }
+
+    public Response getMovie(String imdb_ID){
+        Response resp = new Response();
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        String jsonString = "";
+
+        if(imdb_ID.equals("")) {
+            resp.setCode(Response.error);
+            resp.setDescription("Error. IMDB id not found!");
+            return resp;
+        }
+
+        StringBuilder reqUrl = getReqUrl(DO_GET_ID,"",0,"",imdb_ID);
+
+
+        try {
+            jsonString = sendGet(reqUrl.toString());
+        } catch (Exception e) {
+            // TODO log exception
+            e.printStackTrace();
+        }
+
+        //System.out.println(jsonString);
+
+
+        JsonObject data = parser.parse(jsonString).getAsJsonObject();
+        ApiMovie apiResp = gson.fromJson(data,ApiMovie.class);
+       // System.out.println(apiResp.getResponse());
+        if(!apiResp.getResponse()) {
+            resp.setDescription("Error");
+            resp.setCode(Response.error);
+        }
+
+        resp.setData(apiResp);
+
 
         return resp;
     }
@@ -71,7 +112,7 @@ public class MovieApiBean implements MovieApiBeanRemote {
         URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
         String urlStr=uri.toASCIIString();
 
-        System.out.println(urlStr);
+        //System.out.println(urlStr);
 
         HttpURLConnection con = (HttpURLConnection) new URL(urlStr).openConnection();
 
@@ -93,14 +134,23 @@ public class MovieApiBean implements MovieApiBeanRemote {
         return response.toString();
     }
 
-    public StringBuilder getReqUrl(String movie, int year, String type) {
+
+    // 0 -> search , 1 -> get
+    public StringBuilder getReqUrl(int i,String movie, int year, String type, String imdb_ID) {
         DatabaseConfig cfg = DatabaseConfig.getInstance();
         StringBuilder url = new StringBuilder(DatabaseConfig.getInstance().getApiUrl().toString());
-        url.append(cfg.getApiSearch() + (movie == null ? "" : movie));
-        if (year != 0)
-            url.append("&" + cfg.getApiYearPrefix() + year);
-        if (!type.equals(""))
-            url.append("&" + cfg.getApiTypePrefix() + type);
+        if(i == 1) {
+            url.append(cfg.getApiSearch() + (movie == null ? "" : movie));
+            if (year != 0)
+                url.append("&" + cfg.getApiYearPrefix() + year);
+            if (!type.equals(""))
+                url.append("&" + cfg.getApiTypePrefix() + type);
+        }
+
+        else {
+            url.append(cfg.getApiGetByID()).append(imdb_ID);
+        }
+
         return url;
     }
 

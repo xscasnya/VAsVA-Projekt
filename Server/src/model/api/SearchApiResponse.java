@@ -1,5 +1,5 @@
 
-package model;
+package model.api;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

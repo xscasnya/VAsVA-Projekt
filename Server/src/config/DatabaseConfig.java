@@ -25,6 +25,7 @@ public class DatabaseConfig {
     private String apiSearch;
     private String apiTypePrefix;
     private String apiYearPrefix;
+    private String apiGetByID;
 
     private static DatabaseConfig instance;
 
@@ -63,6 +64,10 @@ public class DatabaseConfig {
         return apiYearPrefix;
     }
 
+    public String getApiGetByID() {
+        return apiGetByID;
+    }
+
     // Nacitanie properties z konfiguracneho suboru configuration.properties
     private void loadProperties() {
         Properties config = new Properties();
@@ -83,6 +88,7 @@ public class DatabaseConfig {
         this.apiSearch = (config.getProperty("apiSearch"));
         this.apiTypePrefix = (config.getProperty("apiTypePrefix"));
         this.apiYearPrefix = (config.getProperty("apiYearPrefix"));
+        this.apiGetByID = (config.getProperty("apiGetByID"));
     }
 
     private void connectToDatabase() {

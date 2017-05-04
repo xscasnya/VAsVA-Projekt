@@ -104,7 +104,7 @@
                                                             <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                                                         </button>
                                                     </a>
-                                                    <a href="#">
+                                                    <a href="${path}/content/movieDetail?mID=${m.imdbID}">
                                                         <button class="btn btn-default">
                                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                                         </button>

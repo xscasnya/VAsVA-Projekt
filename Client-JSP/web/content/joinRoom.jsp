@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
@@ -32,31 +33,31 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Join room</h1>
+            <h1><fmt:message key="joinRoom.title"/></h1>
         </section>
 
         <section class="content">
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Join room</h3>
+                        <h3 class="box-title"><fmt:message key="joinRoom.formTitle"/></h3>
                     </div>
 
                     <form role="form" method="post">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="RoomID">Room #</label>
+                                <label for="RoomID"><fmt:message key="joinRoom.roomNumberLbl"/></label>
                                 <input type="RoomID" class="form-control" id="RoomID" name="RoomID"
-                                       placeholder="Room number">
+                                       placeholder="<fmt:message key="joinRoom.roomNumberPh"/>">
                             </div>
                             <div class="form-group">
-                                <label for="RoomPassword">Room password</label>
+                                <label for="RoomPassword"><fmt:message key="joinRoom.passwordLbl"/></label>
                                 <input type="password" class="form-control" id="RoomPassword" name="RoomPassword"
-                                       placeholder="none">
+                                       placeholder="<fmt:message key="joinRoom.passwordPh"/>">
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Join</button>
+                            <button type="submit" class="btn btn-primary"><fmt:message key="joinRoom.joinBtn"/></button>
                         </div>
                     </form>
                 </div>

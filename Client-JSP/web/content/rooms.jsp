@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 
@@ -44,97 +45,45 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Movies</h3>
                             <a href="${path}/content/addmovie?id=${param['id']}" class="pull-right btn btn-app">
-                                <i class="fa fa-plus"></i> Add new
+                                <i class="fa fa-plus"></i> <fmt:message key="room.addNewBtn"/>
                             </a>
+                            <h3 class="box-title"><fmt:message key="room.formTitle"/></h3>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <table id="example1" class="table table-bordered table-striped dataTable"
-                                               role="grid" aria-describedby="example1_info">
-                                            <%-- HEADER --%>
-                                            <thead>
-                                            <tr role="row">
-                                                <th class="sorting_asc" tabindex="0" aria-controls="example1"
-                                                    rowspan="1"
-                                                    colspan="1" aria-sort="ascending"
-                                                    aria-label="Rendering engine: activate to sort column descending"
-                                                    >Title
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                    colspan="1" aria-label="Browser: activate to sort column ascending"
-                                                    >Year
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="CSS grade: activate to sort column ascending"
-                                                    >Director
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Platform(s): activate to sort column ascending"
-                                                    style="width: 100px;">Length
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Engine version: activate to sort column ascending"
-                                                    style="width: 150px;">Genre
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="CSS grade: activate to sort column ascending"
-                                                    style="width: 100px;">IMDB Rating
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                         colspan="1"
-                                                         aria-label="CSS grade: activate to sort column ascending"
-                                                    style="width: 300px;">Seen by
-                                            </th>
-                                            </tr>
-                                            </thead>
-                                            <%-- BODY --%>
-                                            <%-- TODO dorobit ofarbovanie labelov --%>
-                                            <tbody>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1">Batman</td>
-                                                <td>1999</td>
-                                                <td>Scasny</td>
-                                                <td>115 min</td>
-                                                <td>Drama</td>
-                                                <td><span class="badge bg-red">75%</span></td>
-                                            </tr>
-                                            <tr role="row" class="even">
-                                                <td class="sorting_1">Superman</td>
-                                                <td>2005</td>
-                                                <td>Scasny</td>
-                                                <td>118 min</td>
-                                                <td>Drama</td>
-                                                <td><span class="badge bg-red">55%</span></td>
-                                            </tr>
-
-                                            </tbody>
-                                            <%-- FOOT --%>
-                                            <tfoot>
-                                            <tr>
-                                                <th rowspan="1" colspan="1">Title</th>
-                                                <th rowspan="1" colspan="1">Year</th>
-                                                <th rowspan="1" colspan="1">Director</th>
-                                                <th rowspan="1" colspan="1">Length</th>
-                                                <th rowspan="1" colspan="1">Genre</th>
-                                                <th rowspan="1" colspan="1">IMDB rating</th>
-                                                <th rowspan="1" colspan="1">Seen by</th>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-
-                            </div>
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><fmt:message key="room.tableColumnTitle"/></th>
+                                        <th><fmt:message key="room.tableColumnYear"/></th>
+                                        <th><fmt:message key="room.tableColumnDirector"/></th>
+                                        <th><fmt:message key="room.tableColumnLength"/></th>
+                                        <th><fmt:message key="room.tableColumnGenre"/></th>
+                                        <th><fmt:message key="room.talbeColumnImdbRating"/></th>
+                                        <th><fmt:message key="room.tableColumnSeenBy"/></th>
+                                    </tr>
+                                </thead>
+                                <tbody> <%-- TODO Farebny rating --%>
+                                    <tr role="row" class="odd">
+                                        <td class="sorting_1">Batman</td>
+                                        <td>1999</td>
+                                        <td>Scasny</td>
+                                        <td>115 min</td>
+                                        <td>Drama</td>
+                                        <td><span class="badge bg-red">75%</span></td>
+                                        <td>Nobody</td>
+                                    </tr>
+                                    <tr role="row" class="even">
+                                        <td class="sorting_1">Superman</td>
+                                        <td>2005</td>
+                                        <td>Scasny</td>
+                                        <td>118 min</td>
+                                        <td>Drama</td>
+                                        <td><span class="badge bg-red">55%</span></td>
+                                        <td>Nobody</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
@@ -33,7 +34,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Create room
+                <fmt:message key="createRoom.title"/>
             </h1>
         </section>
 
@@ -43,30 +44,30 @@
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Add room</h3>
+                        <h3 class="box-title"> <fmt:message key="createRoom.formTitle"/></h3>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form role="form" method="post">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="RoomName">Room name</label>
+                                <label for="RoomName"> <fmt:message key="createRoom.roomNameLbl"/></label>
                                 <input type="RoomName" class="form-control" id="RoomName" name="RoomName"
-                                       placeholder="Room name">
+                                       placeholder="<fmt:message key="createRoom.roomNamePh"/>">
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password"> <fmt:message key="createRoom.passwordLbl"/></label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Room password">
+                                       placeholder=" <fmt:message key="createRoom.passwordPh"/>">
                             </div>
                             <!-- /.box-body -->
                             <div class="form-group">
-                                <label>Description:</label>
-                                <textarea class="form-control" name="description" id="description" rows="3" placeholder="Enter description ..."></textarea>
+                                <label> <fmt:message key="createRoom.descriptionLbl"/></label>
+                                <textarea class="form-control" name="description" id="description" rows="3" placeholder=" <fmt:message key="createRoom.descriptionPh"/>"></textarea>
                             </div>
 
                             <div class="form-group">
-                                <label>Select room type: </label>
+                                <label> <fmt:message key="createRoom.roomType"/></label>
                                 <select class="form-control" name="roomtype">\
                                     <c:if test="${roomTypes == null}">
                                         <option value="0">none</option>
@@ -78,7 +79,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit" class="btn btn-primary"> <fmt:message key="createRoom.createBtn"/></button>
                         </div>
                     </form>
                 </div>

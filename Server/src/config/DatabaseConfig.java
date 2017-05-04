@@ -1,9 +1,11 @@
 package config;
+
 import org.postgresql.ds.PGPoolingDataSource;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -19,6 +21,10 @@ public class DatabaseConfig {
     private int maxConnections;
 
     private PGPoolingDataSource source;
+    private StringBuilder apiUrl;
+    private String apiSearch;
+    private String apiTypePrefix;
+    private String apiYearPrefix;
 
     private static DatabaseConfig instance;
 
@@ -29,7 +35,7 @@ public class DatabaseConfig {
     }
 
     public static DatabaseConfig getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             // load config
             instance = new DatabaseConfig();
         }
@@ -41,21 +47,30 @@ public class DatabaseConfig {
         return source;
     }
 
+    public StringBuilder getApiUrl() {
+        return apiUrl;
+    }
+
+    public String getApiSearch() {
+        return apiSearch;
+    }
+
+    public String getApiTypePrefix() {
+        return apiTypePrefix;
+    }
+
+    public String getApiYearPrefix() {
+        return apiYearPrefix;
+    }
+
     // Nacitanie properties z konfiguracneho suboru configuration.properties
     private void loadProperties() {
-        InputStream inStream = Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("configuration.properties");
-
         Properties config = new Properties();
         try {
-            System.out.println("CLASS:  " + this.getClass().getResource("/config/configuration.properties"));
             InputStream stream = (this.getClass().getClassLoader().getResourceAsStream("/config/configuration.properties"));
             config.load(stream);
-
-            System.out.println("Konfiguracny subor bol nacitany");
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Nepodarilo sa nacitat konfig subor");
         }
 
         this.serverName = (config.getProperty("serverName"));
@@ -64,6 +79,10 @@ public class DatabaseConfig {
         this.user = (config.getProperty("userName"));
         this.maxConnections = Integer.parseInt(config.getProperty("maxConnections"));
         this.portNumber = Integer.parseInt(config.getProperty("portNumber"));
+        this.apiUrl = new StringBuilder(config.getProperty("apiURL"));
+        this.apiSearch = (config.getProperty("apiSearch"));
+        this.apiTypePrefix = (config.getProperty("apiTypePrefix"));
+        this.apiYearPrefix = (config.getProperty("apiYearPrefix"));
     }
 
     private void connectToDatabase() {

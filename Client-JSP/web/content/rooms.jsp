@@ -19,6 +19,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="${path}/styles/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/styles/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="${path}/styles/datatables/dataTables.bootstrap.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">

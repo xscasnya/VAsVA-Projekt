@@ -1,3 +1,6 @@
+import beans.movie.MovieApiBeanRemote;
+
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +14,8 @@ import java.io.IOException;
  */
 @WebServlet("/content/addmovie")
 public class AddMovie extends HttpServlet {
+    @EJB
+    MovieApiBeanRemote remote;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -20,6 +25,16 @@ public class AddMovie extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String title = req.getParameter("MovieName");
+        int year = 0;
+        if(!req.getParameter("Year").equals("")){
+            year = Integer.parseInt(req.getParameter("Year"));
+        }
+        String type = req.getParameter("MovieType");
 
+        remote.searchMovie(title,year,type);
+
+
+        resp.sendRedirect(req.getRequestURI()+"?id="+req.getParameter("id"));
     }
 }

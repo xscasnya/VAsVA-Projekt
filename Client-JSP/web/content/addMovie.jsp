@@ -19,6 +19,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="${path}/styles/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="${path}/styles/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="${path}/styles/datatables/dataTables.bootstrap.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -43,7 +44,7 @@
                 <div class="col-xs-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Movies</h3>
+                            <h3 class="box-title">Find movie</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -62,7 +63,8 @@
 
                                     <div class="form-group col-xs-4">
                                         <label>Type </label>
-                                        <select class="form-control" name="movietype">\
+                                        <select class="form-control" name="MovieType">
+                                            <option value="" selected></option>
                                             <option value="movie">Movie</option>
                                             <option value="series">Series</option>
                                             <option value="episode">Episode</option>
@@ -73,6 +75,24 @@
                                     <button type="submit" class="btn btn-primary">Search</button>
                                 </div>
                             </form>
+
+                            <c:if test="${list != null}">
+                                <div class="box-body table-responsive no-padding">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Year</th>
+                                            <th>Director</th>
+                                            <th>Length</th>
+                                            <th>Genre</th>
+                                            <th>IMDB Rating</th>
+                                            <th>Options</th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </c:if>
                         </div>
                     </div>
                 </div>

@@ -4,3 +4,5 @@
 <script src="${pageContext.request.contextPath}/styles/bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="${pageContext.request.contextPath}/styles/dist/js/app.min.js"></script>
+<script src="${pageContext.request.contextPath}/styles/datatables/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/styles/datatables/dataTables.bootstrap.min.js"></script>

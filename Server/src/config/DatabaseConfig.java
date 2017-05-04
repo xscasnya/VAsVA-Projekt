@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Author : Andrej Ščasný, Dominik - singleton
@@ -29,6 +31,7 @@ public class DatabaseConfig {
 
     private static DatabaseConfig instance;
 
+    private static Logger LOG = Logger.getLogger("beans.config");
 
     private DatabaseConfig() {
         loadProperties(); // vytvori v sebe novy objekt
@@ -70,11 +73,13 @@ public class DatabaseConfig {
 
     // Nacitanie properties z konfiguracneho suboru configuration.properties
     private void loadProperties() {
+        LOG.log(Level.INFO,"Nacitavam properties");
         Properties config = new Properties();
         try {
             InputStream stream = (this.getClass().getClassLoader().getResourceAsStream("/config/configuration.properties"));
             config.load(stream);
-        } catch (IOException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani konfiguracneho suboru",e);
             e.printStackTrace();
         }
 

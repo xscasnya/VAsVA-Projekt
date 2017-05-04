@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -25,15 +27,20 @@ import java.net.URL;
 @Stateless
 @Remote(MovieApiBeanRemote.class)
 public class MovieApiBean implements MovieApiBeanRemote {
+
+    private static Logger LOG = Logger.getLogger("beans.movie");
+
     private static final int DO_SEARCH = 1;
     private static final int DO_GET_ID = 0;
 
     @Override
     public Response searchMovie(String movie, int year, String type) {
+        LOG.log(Level.INFO,"Spustam vyhladanie filmu");
         Response resp = new Response();
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         String jsonString = "";
+        StringBuilder reqUrl;
 
         if (movie.equals("")) {
             resp.setCode(Response.error);
@@ -41,20 +48,27 @@ public class MovieApiBean implements MovieApiBeanRemote {
             return resp;
         }
 
-        StringBuilder reqUrl = getReqUrl(DO_SEARCH,movie, year, type,"");
+        try {
+             reqUrl = getReqUrl(DO_SEARCH,movie, year, type,"");
+
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani API URL -> ",e);
+            resp.setCode(Response.error);
+            resp.setDescription("Error please try again.");
+            return resp;
+        }
 
         try {
             jsonString = sendGet(reqUrl.toString());
         } catch (Exception e) {
             // TODO Log exception
+            LOG.log(Level.SEVERE,"Chyba pri spracovani GET requestu -> ",e);
             e.printStackTrace();
         }
 
-       // System.out.println(jsonString);
-
         JsonObject data = parser.parse(jsonString).getAsJsonObject();
         SearchApiResponse apiResp = gson.fromJson(data,SearchApiResponse.class);
-       // System.out.println(apiResp.getResponse());
+
         if(!apiResp.getResponse()) {
             resp.setDescription("Error");
             resp.setCode(Response.error);
@@ -70,6 +84,7 @@ public class MovieApiBean implements MovieApiBeanRemote {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         String jsonString = "";
+        StringBuilder reqUrl;
 
         if(imdb_ID.equals("")) {
             resp.setCode(Response.error);
@@ -77,22 +92,26 @@ public class MovieApiBean implements MovieApiBeanRemote {
             return resp;
         }
 
-        StringBuilder reqUrl = getReqUrl(DO_GET_ID,"",0,"",imdb_ID);
+        try {
+            reqUrl = getReqUrl(DO_GET_ID,"",0,"",imdb_ID);
 
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani API URL -> ",e);
+            resp.setCode(Response.error);
+            resp.setDescription("Error please try again.");
+            return resp;
+        }
 
         try {
             jsonString = sendGet(reqUrl.toString());
         } catch (Exception e) {
             // TODO log exception
+            LOG.log(Level.SEVERE,"Chyba pri spracovani GET requestu -> ",e);
             e.printStackTrace();
         }
 
-        //System.out.println(jsonString);
-
-
         JsonObject data = parser.parse(jsonString).getAsJsonObject();
         ApiMovie apiResp = gson.fromJson(data,ApiMovie.class);
-       // System.out.println(apiResp.getResponse());
         if(!apiResp.getResponse()) {
             resp.setDescription("Error");
             resp.setCode(Response.error);

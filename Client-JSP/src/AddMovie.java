@@ -1,5 +1,5 @@
 import beans.movie.MovieApiBeanRemote;
-import model.Search;
+import model.api.Search;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;

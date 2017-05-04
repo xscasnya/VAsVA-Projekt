@@ -13,6 +13,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Dominik on 25.4.2017.
@@ -22,7 +24,10 @@ import java.util.List;
 @Remote(RoomPersistentBeanRemote.class)
 public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
+    private static Logger LOG = Logger.getLogger("beans.room");
+
     public boolean createRoom(Room room) {
+        LOG.log(Level.INFO,"Spustam vytvaranie miestnosti");
         Boolean success = true;
         PreparedStatement insertRoom = null;
         PreparedStatement insertUserRoom = null;
@@ -31,14 +36,13 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
             return false;
         }
 
-
         int roomID = 0;
-
 
         try {
             conn.setAutoCommit(false);
@@ -65,13 +69,16 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
             conn.commit();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
             success = false;
 
             try {
+                LOG.log(Level.INFO,"Rollbacking transaction");
                 conn.rollback();
-            } catch (SQLException e1) {
+            } catch (Exception e1) {
+                LOG.log(Level.SEVERE,"Chyba pri rollbacku transakcie",e1);
                 e1.printStackTrace();
             }
 
@@ -79,16 +86,18 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             try {
                 if (insertRoom != null) insertRoom.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
             }
 
             try {
                 if(insertUserRoom != null) insertUserRoom.close();
-            } catch (SQLException e) {
-
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
             }
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani connection",e);
             }
         }
 
@@ -97,6 +106,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
     }
 
     public boolean insertUserToRoom(int userID, int roomID) {
+        LOG.log(Level.INFO,"Spustam insertnutie usera");
         Boolean success = true;
         PreparedStatement insertRoom = null;
         PreparedStatement insertUserRoom = null;
@@ -105,7 +115,8 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
             success = false;
         }
@@ -122,13 +133,16 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
             conn.commit();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
             success = false;
 
             try {
+                LOG.log(Level.INFO,"Rollbacking transaction");
                 conn.rollback();
-            } catch (SQLException e1) {
+            } catch (Exception e1) {
+                LOG.log(Level.SEVERE,"Chyba pri rollbacku transakcie",e1);
                 e1.printStackTrace();
                 success = false;
             }
@@ -137,17 +151,20 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             try {
                 if (insertRoom != null) insertRoom.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani connetction",e);
                 success = false;
             }
 
             try {
                 if(insertUserRoom != null) insertUserRoom.close();
-            } catch (SQLException e) {
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
                 success = false;
             }
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
                 success = false;
             }
         }
@@ -157,14 +174,18 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
     }
 
+
     public List<Room> getUserRooms(int id) {
+        LOG.log(Level.INFO,"Spustam ziskanie miestnosti pre pouzivatela");
+
         PreparedStatement stmt = null;
         Connection conn = null;
         List<Room> rooms = null;
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
             return null;
         }
@@ -182,18 +203,21 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             }
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
 
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
             }
 
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
             }
 
             return rooms;
@@ -209,6 +233,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
         } catch (SQLException e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
             return null;
         }
@@ -225,18 +250,21 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             }
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
 
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
             }
 
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
             }
 
             return rooms;
@@ -251,9 +279,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
-            room = null;
         }
 
         String getSQL = "SELECT * from room WHERE id = ?";
@@ -267,19 +295,22 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             }
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
             room = null;
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
                 room = null;
             }
 
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
                 room = null;
             }
 
@@ -295,9 +326,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
-            result = true;
         }
 
         String getSQL = "SELECT * from user_in_room WHERE user_id = ? AND room_id = ?";
@@ -309,19 +340,22 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
             result = rs.next();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
             result = true;
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
                 result = true;
             }
 
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
                 result = true;
             }
 
@@ -335,7 +369,8 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
     public RoomType processRowRoomType(ResultSet rs) {
         try {
             return new RoomType(rs.getInt("id"),rs.getString("type"));
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri spracovani resultu z DB",e);
             e.printStackTrace();
             return null;
         }
@@ -344,7 +379,8 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
     public Room processRowRoom(ResultSet rs) {
         try {
             return new Room(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getInt("type_id"), rs.getTimestamp("created_at"), rs.getInt("created_by"));
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri spracovani resultu z DB",e);
             e.printStackTrace();
             return null;
         }
@@ -358,9 +394,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
-            result = -1;
         }
 
         String getSQL = "SELECT room_id, count(*) FROM user_in_room " +
@@ -374,28 +410,25 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             if(rs.next()) {
                 result = rs.getInt("count");
             }
-            else{
-                result = -1;
-            }
 
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
             result = -1;
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
                 result = -1;
             }
 
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
                 result = -1;
             }
-
-
         }
 
         return result;
@@ -414,7 +447,8 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
             result = -1;
         }
@@ -430,25 +464,23 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             if(rs.next()) {
                 result = rs.getInt("count");
             }
-            else{
-                result = -1;
-            }
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
             result = -1;
         } finally {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
-                result = -1;
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
             }
 
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
-                result = -1;
+                LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
             }
 
 

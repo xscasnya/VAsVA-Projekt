@@ -8,4 +8,5 @@ import model.Response;
  */
 public interface MovieApiBeanRemote {
     public Response searchMovie(String movie, int year, String type);
+    public Response getMovie(String imdb_ID);
 }

@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -20,7 +22,10 @@ import java.sql.SQLException;
 @Remote(UserPersistentBeanRemote.class)
 public class UserPersistentBean implements UserPersistentBeanRemote {
 
+    private static Logger LOG = Logger.getLogger("beans.user");
+
     public Response getAuthentication(String nickname, String password) {
+        LOG.log(Level.INFO,"Zacinam overenie pouzivatela");
         Response resp = new Response();
         if(nickname.equals("") || password.equals("")){
             resp.setCode(Response.error);
@@ -34,8 +39,9 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            LOG.log(Level.SEVERE,"Chyba pri nadviazaní DB connection",e);
             resp.setCode(Response.error);
             resp.setDescription("Connection to database failed!");
             return resp;
@@ -53,8 +59,9 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
             }
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            LOG.log(Level.SEVERE,"Chyba pri spusteni dopytu",e);
             resp.setCode(Response.error);
             resp.setDescription("Error with database query.");
 
@@ -62,11 +69,13 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
             try {
                 if (stmt != null) stmt.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
             }
 
             try {
                 if (conn != null) conn.close();
             } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani connetction",e);
             }
 
         }
@@ -80,7 +89,8 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
         try {
             resp.setData(new User(rs.getInt("id"), rs.getString("email"), rs.getString("nickname"), rs.getString("password"), rs.getTimestamp("registered_at")));
             return resp;
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri spracovani resultu z DB",e);
             e.printStackTrace();
             resp.setCode(Response.error);
             resp.setDescription("Error while proccessing row.");

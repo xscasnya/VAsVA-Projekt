@@ -1,4 +1,5 @@
 import beans.movie.MovieApiBeanRemote;
+import model.Search;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Author : Andrej Ščasný
@@ -32,9 +34,9 @@ public class AddMovie extends HttpServlet {
         }
         String type = req.getParameter("MovieType");
 
-        remote.searchMovie(title,year,type);
+        List<Search> movies = (List<Search>)remote.searchMovie(title,year,type).getData();
+        req.setAttribute("movies",movies);
 
-
-        resp.sendRedirect(req.getRequestURI()+"?id="+req.getParameter("id"));
+        req.getRequestDispatcher("/content/addMovie.jsp"+"?id="+req.getParameter("id")).forward(req,resp);
     }
 }

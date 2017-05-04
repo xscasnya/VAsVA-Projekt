@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="NotFound" value="N/A"/>
 
 
 <html>
@@ -76,19 +77,42 @@
                                 </div>
                             </form>
 
-                            <c:if test="${list != null}">
+                            <c:if test="${movies != null}">
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">
                                         <tbody>
                                         <tr>
+                                            <th>Poster</th>
                                             <th>Title</th>
                                             <th>Year</th>
-                                            <th>Director</th>
-                                            <th>Length</th>
-                                            <th>Genre</th>
-                                            <th>IMDB Rating</th>
+                                            <th>Type</th>
                                             <th>Options</th>
                                         </tr>
+                                        <c:forEach items="${movies}" var="m">
+                                            <tr>
+                                                <td>
+                                                    <c:if test="${m.poster != 'N/A'}">
+                                                        <img src="${m.poster}" width="50px" height="50px"/>
+                                                    </c:if>
+                                                </td>
+                                                <td><c:out value="${m.title}"/></td>
+                                                <td><c:out value="${m.year}"/></td>
+                                                <td><c:out value="${m.type}"/></td>
+                                                <td>
+                                                    <a href="#">
+                                                        <button class="btn btn-success">
+                                                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </a>
+                                                    <a href="#">
+                                                        <button class="btn btn-default">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        </button>
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>

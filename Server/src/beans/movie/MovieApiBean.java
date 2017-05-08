@@ -80,7 +80,7 @@ public class MovieApiBean implements MovieApiBeanRemote {
         String jsonString = "";
         StringBuilder reqUrl;
 
-        if(imdb_ID.equals("")) {
+        if("".equals(imdb_ID)) {
             resp.setCode(Response.error);
             resp.setDescription("Error. IMDB id not found!");
             return resp;

@@ -1,10 +1,13 @@
 package beans.room;
 
+import beans.movie.MovieApiBean;
 import beans.user.UserPersistentBeanRemote;
 import config.DatabaseConfig;
+import model.Response;
 import model.Room;
 import model.RoomType;
 import model.User;
+import model.api.ApiMovie;
 import org.postgresql.ds.PGPoolingDataSource;
 
 import javax.ejb.Remote;
@@ -488,6 +491,72 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
 
         return result;
+    }
+
+    public Response addMovie (ApiMovie movie, int roomID, int userID) {
+        LOG.log(Level.INFO,"Pridavam film");
+        Response resp = new Response();
+        if(movie == null || roomID < 1){
+            resp.setCode(Response.error);
+            resp.setDescription("Invalid add, missing parameters");
+            LOG.log(Level.WARNING,"Pri pridani filmu chybaju parametre");
+            return resp;
+        }
+
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nadviazaní DB connection",e);
+            e.printStackTrace();
+            resp.setCode(Response.error);
+            resp.setDescription("Connection to database failed!");
+            return resp;
+        }
+
+            String getSQL = "INSERT INTO film VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            stmt = conn.prepareStatement(getSQL);
+            stmt.setString(1,movie.getImdbID());
+            stmt.setString(2,movie.getTitle());
+            stmt.setString(3,movie.getYear());
+            stmt.setString(4,movie.getDirector());
+            stmt.setString(5,movie.getRuntime());
+            stmt.setString(6,movie.getGenre());
+            stmt.setString(7,movie.getImdbRating());
+            stmt.setInt(8,roomID);
+            stmt.setTimestamp(9,new Timestamp(Calendar.getInstance().getTime().getTime()));
+            stmt.setInt(10,userID);
+
+
+            stmt.executeUpdate();
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.log(Level.SEVERE,"Chyba pri spusteni dopytu",e);
+            resp.setCode(Response.error);
+            resp.setDescription("Error with database query.");
+
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani connetction",e);
+            }
+
+        }
+
+        return resp;
     }
 
 }

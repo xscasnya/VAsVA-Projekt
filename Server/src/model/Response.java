@@ -50,4 +50,12 @@ public class Response implements Serializable {
     public void setData(Object data) {
         this.data = data;
     }
+
+    public static int getError() {
+        return error;
+    }
+
+    public static int getSuccess() {
+        return success;
+    }
 }

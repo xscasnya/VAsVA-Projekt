@@ -1,7 +1,9 @@
 package beans.room;
 
+import model.Response;
 import model.Room;
 import model.RoomType;
+import model.api.ApiMovie;
 
 import javax.ejb.Remote;
 import java.util.List;
@@ -19,6 +21,7 @@ public interface RoomPersistentBeanRemote {
     public boolean insertUserToRoom(int userID, int roomID);
     public boolean isUserInRoom(int userID, int roomID);
     public int getRoomsCount(int userID);
+    public Response addMovie (ApiMovie movie, int roomID, int userID);
 
     // mozno do inej beany
     public int getUsersCount(int roomID);

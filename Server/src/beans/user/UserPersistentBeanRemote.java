@@ -15,5 +15,5 @@ import java.util.List;
 public interface UserPersistentBeanRemote {
 
 	public Response getAuthentication(String nickname, String password);
-
+	public Response getUsersInRoom(int roomID);
 }

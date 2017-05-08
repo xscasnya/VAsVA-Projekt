@@ -43,6 +43,69 @@
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
+                    <div class="box box-primary box-solid collapsed-box">
+                        <div class="box-header with-border" data-widget="collapse">
+                            <h3 class="box-title"><fmt:message key="room.description"/></h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body" style="display: none;">
+                            ${actualRoom.description}
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box box-primary box-solid collapsed-box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><fmt:message key="room.users"/></h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body" style="display: none;">
+                            <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th><fmt:message key="room.tableColumnName"/></th>
+                                        <th><fmt:message key="room.tableColumnJoinedAt"/></th>
+                                        <th><fmt:message key="room.tableColumnMoviesCount"/></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${usersInRoom}" var="u">
+                                            <tr role="row" class="odd">
+                                                <td>${u.nickname}</td>
+                                                <td>${u.joined_at}</td>
+                                                <td>${u.addedMoviesCount}</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
                             <a href="${path}/content/addmovie?id=${param['id']}" class="btn btn-app" style="position: absolute; right: 15px;">

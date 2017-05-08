@@ -44,7 +44,7 @@ public class CreateRoom extends HttpServlet {
 
             int userID = ((User)req.getSession().getAttribute("user")).getId();
             Timestamp now = new Timestamp(Calendar.getInstance().getTime().getTime());
-            Room room = new Room(roomName,password,Integer.parseInt(roomType),now,userID);
+            Room room = new Room(roomName,password,Integer.parseInt(roomType),now,userID,description);
 
             if(remote.createRoom(room)){
                 req.setAttribute("ejbError",false);

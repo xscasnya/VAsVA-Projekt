@@ -19,11 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-/**
- * Author : Andrej Ščasný
- * Date : 03.05.2017
- */
-
 @Stateless
 @Remote(MovieApiBeanRemote.class)
 public class MovieApiBean implements MovieApiBeanRemote {
@@ -61,7 +56,6 @@ public class MovieApiBean implements MovieApiBeanRemote {
         try {
             jsonString = sendGet(reqUrl.toString());
         } catch (Exception e) {
-            // TODO Log exception
             LOG.log(Level.SEVERE,"Chyba pri spracovani GET requestu -> ",e);
             e.printStackTrace();
         }
@@ -105,7 +99,6 @@ public class MovieApiBean implements MovieApiBeanRemote {
         try {
             jsonString = sendGet(reqUrl.toString());
         } catch (Exception e) {
-            // TODO log exception
             LOG.log(Level.SEVERE,"Chyba pri spracovani GET requestu -> ",e);
             e.printStackTrace();
         }

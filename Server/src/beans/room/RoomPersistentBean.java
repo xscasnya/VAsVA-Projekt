@@ -46,7 +46,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn.setAutoCommit(false);
-            insertRoom = conn.prepareStatement("INSERT INTO room VALUES (DEFAULT,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            insertRoom = conn.prepareStatement("INSERT INTO room VALUES (DEFAULT,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             insertUserRoom = conn.prepareStatement("INSERT INTO user_in_room VALUES (?,?,?,?)");
 
             insertRoom.setString(1,room.getName());
@@ -54,6 +54,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             insertRoom.setInt(3,room.getType_id());
             insertRoom.setTimestamp(4,room.getCreated_at());
             insertRoom.setInt(5,room.getCreated_by());
+            insertRoom.setString(6,room.getDescription());
 
             insertRoom.executeUpdate();
 

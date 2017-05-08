@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>380</x>
-      <y>370</y>
+      <y>290</y>
       <w>160</w>
       <h>130</h>
     </coordinates>
@@ -22,15 +22,16 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>370</y>
-      <w>160</w>
-      <h>130</h>
+      <x>890</x>
+      <y>280</y>
+      <w>170</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>room
 --
 -id: int
 -name: varchar 30
+-description:text
 -password: varchar 20
 -type_id: int
 -created_at: timestamp
@@ -41,7 +42,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>650</x>
-      <y>380</y>
+      <y>300</y>
       <w>160</w>
       <h>110</h>
     </coordinates>
@@ -57,7 +58,7 @@
     <id>Relation</id>
     <coordinates>
       <x>530</x>
-      <y>430</y>
+      <y>350</y>
       <w>140</w>
       <h>40</h>
     </coordinates>
@@ -69,19 +70,19 @@ m2=*</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>800</x>
-      <y>430</y>
-      <w>120</w>
+      <y>350</y>
+      <w>110</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>m1=1
 m2=*</panel_attributes>
-    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>650</x>
-      <y>570</y>
+      <y>490</y>
       <w>160</w>
       <h>110</h>
     </coordinates>
@@ -95,7 +96,7 @@ m2=*</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>720</x>
-      <y>480</y>
+      <y>400</y>
       <w>30</w>
       <h>110</h>
     </coordinates>
@@ -107,7 +108,7 @@ m2=*</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1150</x>
-      <y>380</y>
+      <y>300</y>
       <w>160</w>
       <h>110</h>
     </coordinates>
@@ -121,7 +122,7 @@ m2=*</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1050</x>
-      <y>430</y>
+      <y>350</y>
       <w>120</w>
       <h>40</h>
     </coordinates>
@@ -133,7 +134,7 @@ m2=*</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>140</x>
-      <y>390</y>
+      <y>310</y>
       <w>160</w>
       <h>110</h>
     </coordinates>
@@ -147,7 +148,7 @@ m2=*</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>290</x>
-      <y>430</y>
+      <y>350</y>
       <w>110</w>
       <h>40</h>
     </coordinates>
@@ -158,66 +159,81 @@ m2=*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>160</y>
-      <w>160</w>
-      <h>130</h>
+      <x>870</x>
+      <y>0</y>
+      <w>190</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>film
 --
 -id: int
+-imdbID: text
+-title: text
+-year: varchar(20)
+-director: text
+-length: varchar(20)
+-genre: text
+-imdbRating: varchar(20)
 -room_id: int
 -added_at: timestamp
--total_rating: int
--rating_count: int
--imdb_id: int</panel_attributes>
+-added_by: user_id
+
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>970</x>
-      <y>280</y>
+      <y>200</y>
       <w>30</w>
-      <h>110</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>m1=1
 m2=*</panel_attributes>
-    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1150</x>
-      <y>170</y>
-      <w>160</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>imdb_stats
---
--id:int
-.
-.
-.</panel_attributes>
-    <additional_attributes/>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1050</x>
-      <y>220</y>
-      <w>120</w>
+      <x>740</x>
+      <y>140</y>
+      <w>150</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>410</y>
+      <w>560</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>m1=1
 m2=1</panel_attributes>
-    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;230.0;540.0;230.0;540.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>140</y>
+      <w>160</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0;140.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>180</y>
+      <x>590</x>
+      <y>100</y>
       <w>160</w>
       <h>100</h>
     </coordinates>
@@ -226,41 +242,5 @@ m2=1</panel_attributes>
 -user_id: int
 -film_id: int</panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>450</x>
-      <y>220</y>
-      <w>220</w>
-      <h>170</h>
-    </coordinates>
-    <panel_attributes>m1=1
-m2=*</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;10.0;200.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>800</x>
-      <y>220</y>
-      <w>120</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>m1=1
-m2=*</panel_attributes>
-    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>440</x>
-      <y>490</y>
-      <w>560</w>
-      <h>250</h>
-    </coordinates>
-    <panel_attributes>m1=1
-m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;230.0;540.0;230.0;540.0;10.0</additional_attributes>
   </element>
 </diagram>

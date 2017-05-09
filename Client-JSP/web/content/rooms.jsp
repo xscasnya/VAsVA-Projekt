@@ -4,6 +4,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -70,7 +71,8 @@
                             <h3 class="box-title"><fmt:message key="room.users"/></h3>
 
                             <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-plus"></i>
                                 </button>
                             </div>
                             <!-- /.box-tools -->
@@ -87,13 +89,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach items="${usersInRoom}" var="u">
-                                            <tr role="row" class="odd">
-                                                <td>${u.nickname}</td>
-                                                <td>${u.joined_at}</td>
-                                                <td>${u.addedMoviesCount}</td>
-                                            </tr>
-                                        </c:forEach>
+                                    <c:forEach items="${usersInRoom}" var="u">
+                                        <tr role="row" class="odd">
+                                            <td>${u.nickname}</td>
+                                            <td>${u.joined_at}</td>
+                                            <td>${u.addedMoviesCount}</td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -108,23 +110,25 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <a href="${path}/content/addmovie?id=${param['id']}" class="btn btn-app" style="position: absolute; right: 15px;">
+                            <a href="${path}/content/addmovie?id=${param['id']}" class="btn btn-app"
+                               style="position: absolute; right: 15px;">
                                 <i class="fa fa-plus"></i> <fmt:message key="room.addNewBtn"/>
                             </a>
-                            <h3 class="box-title" style="display: block; margin-top: 40px;"><fmt:message key="room.formTitle"/></h3>
+                            <h3 class="box-title" style="display: block; margin-top: 40px;"><fmt:message
+                                    key="room.formTitle"/></h3>
                         </div>
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-hover">
                                 <thead>
-                                    <tr>
-                                        <th style="width: 500px;"><fmt:message key="room.tableColumnTitle"/></th>
-                                        <th style="width: 100px;"><fmt:message key="room.tableColumnYear"/></th>
-                                        <th style="width: 150px;"><fmt:message key="room.tableColumnDirector"/></th>
-                                        <th style="width: 100px;"><fmt:message key="room.tableColumnLength"/></th>
-                                        <th style="width: 200px;"><fmt:message key="room.tableColumnGenre"/></th>
-                                        <th style="width: 150px;"><fmt:message key="room.talbeColumnImdbRating"/></th>
-                                        <th><fmt:message key="room.tableColumnSeenBy"/></th>
-                                    </tr>
+                                <tr>
+                                    <th style="width: 500px;"><fmt:message key="room.tableColumnTitle"/></th>
+                                    <th style="width: 100px;"><fmt:message key="room.tableColumnYear"/></th>
+                                    <th style="width: 150px;"><fmt:message key="room.tableColumnDirector"/></th>
+                                    <th style="width: 100px;"><fmt:message key="room.tableColumnLength"/></th>
+                                    <th style="width: 200px;"><fmt:message key="room.tableColumnGenre"/></th>
+                                    <th style="width: 150px;"><fmt:message key="room.talbeColumnImdbRating"/></th>
+                                    <th><fmt:message key="room.tableColumnSeenBy"/></th>
+                                </tr>
                                 </thead>
                                 <tbody> <%-- TODO Farebny rating --%>
                                 <c:forEach var="movie" items="${movies}">
@@ -134,7 +138,13 @@
                                         <td><c:out value="${movie.director}"/></td>
                                         <td><c:out value="${movie.length}"/></td>
                                         <td><c:out value="${movie.genre}"/></td>
-                                        <td><span class="badge bg-red"><c:out value="${(movie.imdbRating/10)*100}"/>%</span></td>
+                                        <td>
+                                            <span class="badge bg-red">
+                                                <fmt:parseNumber var="rating" integerOnly="true" type="number" value="${(movie.imdbRating/10)*100}" />
+                                                <c:out value="${rating}"/>%
+                                            </span>
+                                        </td>
+
                                         <td></td>
                                     </tr>
                                 </c:forEach>

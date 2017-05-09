@@ -48,7 +48,10 @@
                             <div class="form-group">
                                 <label for="RoomID"><fmt:message key="joinRoom.roomNumberLbl"/></label>
                                 <input type="RoomID" class="form-control" id="RoomID" name="RoomID"
-                                       placeholder="<fmt:message key="joinRoom.roomNumberPh"/>">
+                                       placeholder="<fmt:message key="joinRoom.roomNumberPh"/>"
+                                       <c:if test="${not empty param.id}">
+                                            value="${param.id}"
+                                        </c:if>>
                             </div>
                             <div class="form-group">
                                 <label for="RoomPassword"><fmt:message key="joinRoom.passwordLbl"/></label>

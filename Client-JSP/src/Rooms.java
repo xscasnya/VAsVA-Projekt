@@ -2,6 +2,7 @@ import beans.room.RoomPersistentBean;
 import beans.room.RoomPersistentBeanRemote;
 import beans.user.UserPersistentBean;
 import beans.user.UserPersistentBeanRemote;
+import com.google.zxing.WriterException;
 import model.Movie;
 import model.Response;
 import model.Room;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,6 +34,13 @@ public class Rooms extends HttpServlet {
         Room actualRoom = remoteRoom.getRoom(roomID);
         System.out.println("descr " + actualRoom.getDescription());
         Response response = remoteUser.getUsersInRoom(roomID);
+
+        try {
+            File file = QRCodeGenerator.GenerateQRCode("http://localhost:8180/ClientJSP/content/joinRoom?id=" + roomID);
+        } catch (WriterException e) {
+            e.printStackTrace();
+            // TODO vypisat error
+        }
 
         if(response.getCode() == Response.error)
         {

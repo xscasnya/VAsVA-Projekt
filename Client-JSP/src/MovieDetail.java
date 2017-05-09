@@ -23,6 +23,8 @@ public class MovieDetail extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
+        req.setAttribute("caller",req.getHeader("Referer"));
         Response res = remote.getMovie(req.getParameter("mID"));
         if(res.getCode()==Response.success) {
             ApiMovie movie = (ApiMovie) res.getData();

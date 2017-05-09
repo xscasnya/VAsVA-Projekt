@@ -22,6 +22,7 @@ public interface RoomPersistentBeanRemote {
     public boolean isUserInRoom(int userID, int roomID);
     public int getRoomsCount(int userID);
     public Response addMovie (ApiMovie movie, int roomID, int userID);
+    public Response getMovies(int roomID);
 
     // mozno do inej beany
     public int getUsersCount(int roomID);

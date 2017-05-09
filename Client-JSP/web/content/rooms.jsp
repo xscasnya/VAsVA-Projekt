@@ -127,24 +127,17 @@
                                     </tr>
                                 </thead>
                                 <tbody> <%-- TODO Farebny rating --%>
+                                <c:forEach var="movie" items="${movies}">
                                     <tr role="row" class="odd">
-                                        <td class="sorting_1">Batman</td>
-                                        <td>1999</td>
-                                        <td>Scasny</td>
-                                        <td>115 min</td>
-                                        <td>Drama</td>
-                                        <td><span class="badge bg-red">75%</span></td>
-                                        <td>Nobody</td>
+                                        <td><c:out value="${movie.title}"/></td>
+                                        <td><c:out value="${movie.year}"/></td>
+                                        <td><c:out value="${movie.director}"/></td>
+                                        <td><c:out value="${movie.length}"/></td>
+                                        <td><c:out value="${movie.genre}"/></td>
+                                        <td><span class="badge bg-red"><c:out value="${(movie.imdbRating/10)*100}"/>%</span></td>
+                                        <td></td>
                                     </tr>
-                                    <tr role="row" class="even">
-                                        <td class="sorting_1">Superman</td>
-                                        <td>2005</td>
-                                        <td>Scasny</td>
-                                        <td>118 min</td>
-                                        <td>Drama</td>
-                                        <td><span class="badge bg-red">55%</span></td>
-                                        <td>Nobody</td>
-                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>

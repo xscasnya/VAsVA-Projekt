@@ -2,6 +2,7 @@ import beans.room.RoomPersistentBean;
 import beans.room.RoomPersistentBeanRemote;
 import beans.user.UserPersistentBean;
 import beans.user.UserPersistentBeanRemote;
+import model.Movie;
 import model.Response;
 import model.Room;
 import model.UserDetails;
@@ -41,6 +42,17 @@ public class Rooms extends HttpServlet {
             List<UserDetails> users = (List<UserDetails>)response.getData();
             req.setAttribute("usersInRoom", users);
         }
+
+        // nacitanie movies
+        Response movieResponse = remoteRoom.getMovies(roomID);
+
+        System.out.println("Rooma : " + roomID);
+        if(movieResponse.getCode() == Response.success) {
+            List<Movie> movies = (List<Movie>) (movieResponse.getData());
+            req.setAttribute("movies",movies);
+        }
+
+
 
         req.setAttribute("actualRoom", actualRoom);
         req.getRequestDispatcher("/content/rooms.jsp").forward(req, resp);

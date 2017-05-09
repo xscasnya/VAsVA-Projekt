@@ -2,11 +2,9 @@ package beans.room;
 
 import beans.movie.MovieApiBean;
 import beans.user.UserPersistentBeanRemote;
+import com.sun.org.apache.regexp.internal.RE;
 import config.DatabaseConfig;
-import model.Response;
-import model.Room;
-import model.RoomType;
-import model.User;
+import model.*;
 import model.api.ApiMovie;
 import org.postgresql.ds.PGPoolingDataSource;
 
@@ -15,6 +13,7 @@ import javax.ejb.Stateless;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -380,6 +379,17 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
     }
 
+    public Movie processMovieRow (ResultSet rs) {
+        try {
+            return new Movie(rs.getString("imdbid"),rs.getString("title"),rs.getString("year"),rs.getString("director"),
+                    rs.getString("length"),rs.getString("genre"),rs.getString("imdbrating"),rs.getTimestamp("added_at"),rs.getInt("added_by"));
+        }catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri spracovani resultu z DB",e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Room processRowRoom(ResultSet rs) {
         try {
             return new Room(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getInt("type_id"), rs.getTimestamp("created_at"), rs.getInt("created_by"));
@@ -493,6 +503,64 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return result;
     }
 
+    public Response getMovies(int roomID) {
+        LOG.log(Level.INFO,"Nacitavam vsetky filmy pre miestnost : " + roomID);
+        Response resp = new Response();
+
+
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nadviazaní  DB connection",e);
+            e.printStackTrace();
+            resp.setCode(Response.error);
+            resp.setDescription("Connection to database failed!");
+            return resp;
+        }
+        List<Movie> movies = new LinkedList<>();
+        String getSQL = "SELECT * FROM film WHERE room_id = ?";
+
+        try {
+            stmt = conn.prepareStatement(getSQL);
+            stmt.setInt(1,roomID);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Movie get = processMovieRow(rs);
+                movies.add(get);
+            }
+
+
+            resp.setData(movies);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.log(Level.SEVERE,"Chyba pri spusteni dopytu",e);
+            resp.setCode(Response.error);
+            resp.setDescription("Error with database query.");
+
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani connetction",e);
+            }
+
+        }
+
+        return resp;
+    }
+
     public Response addMovie (ApiMovie movie, int roomID, int userID) {
         LOG.log(Level.INFO,"Pridavam film");
         Response resp = new Response();
@@ -516,9 +584,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             return resp;
         }
 
-            String getSQL = "INSERT INTO film VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?)";
+            String insertSQL = "INSERT INTO film VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?)";
         try {
-            stmt = conn.prepareStatement(getSQL);
+            stmt = conn.prepareStatement(insertSQL);
             stmt.setString(1,movie.getImdbID());
             stmt.setString(2,movie.getTitle());
             stmt.setString(3,movie.getYear());

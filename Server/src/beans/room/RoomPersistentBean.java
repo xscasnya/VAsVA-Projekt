@@ -392,7 +392,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
     public Room processRowRoom(ResultSet rs) {
         try {
-            return new Room(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getInt("type_id"), rs.getTimestamp("created_at"), rs.getInt("created_by"));
+            return new Room(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getInt("type_id"), rs.getTimestamp("created_at"), rs.getInt("created_by"), rs.getString("description"));
         } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri spracovani resultu z DB",e);
             e.printStackTrace();

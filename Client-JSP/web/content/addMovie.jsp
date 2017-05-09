@@ -111,7 +111,6 @@
                                                         <i class="fa fa-eye" aria-hidden="true"></i>
                                                     </button>
                                                 </a>
-
                                             </td>
                                         </tr>
                                     </c:forEach>

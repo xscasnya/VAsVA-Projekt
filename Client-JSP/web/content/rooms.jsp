@@ -4,7 +4,6 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -121,17 +120,19 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th style="width: 500px;"><fmt:message key="room.tableColumnTitle"/></th>
+                                    <th style="width: 380px;"><fmt:message key="room.tableColumnTitle"/></th>
                                     <th style="width: 100px;"><fmt:message key="room.tableColumnYear"/></th>
                                     <th style="width: 150px;"><fmt:message key="room.tableColumnDirector"/></th>
                                     <th style="width: 100px;"><fmt:message key="room.tableColumnLength"/></th>
                                     <th style="width: 200px;"><fmt:message key="room.tableColumnGenre"/></th>
                                     <th style="width: 150px;"><fmt:message key="room.talbeColumnImdbRating"/></th>
-                                    <th><fmt:message key="room.tableColumnSeenBy"/></th>
+                                    <th><fmt:message key="room.tableColumnOptions"/></th>
                                 </tr>
                                 </thead>
                                 <tbody> <%-- TODO Farebny rating --%>
                                 <c:forEach var="movie" items="${movies}">
+                                    <fmt:parseNumber var="rating" integerOnly="true" type="number"
+                                                     value="${(movie.imdbRating/10)*100}"/>
                                     <tr role="row" class="odd">
                                         <td><c:out value="${movie.title}"/></td>
                                         <td><c:out value="${movie.year}"/></td>
@@ -139,13 +140,30 @@
                                         <td><c:out value="${movie.length}"/></td>
                                         <td><c:out value="${movie.genre}"/></td>
                                         <td>
-                                            <span class="badge bg-red">
-                                                <fmt:parseNumber var="rating" integerOnly="true" type="number" value="${(movie.imdbRating/10)*100}" />
+                                            <c:if test="${rating > 0 && rating < 40}">
+                                                <span class="badge bg-red">
                                                 <c:out value="${rating}"/>%
-                                            </span>
+                                                </span>
+                                            </c:if>
+                                            <c:if test="${rating >= 40 && rating < 70}">
+                                                <span class="badge bg-yellow">
+                                                <c:out value="${rating}"/>%
+                                                </span>
+                                            </c:if>
+                                            <c:if test="${rating >= 70}">
+                                                <span class="badge bg-green">
+                                                <c:out value="${rating}"/>%
+                                                </span>
+                                            </c:if>
                                         </td>
 
-                                        <td></td>
+                                        <td>
+                                            <a href="${path}/content/movieDetail?mID=${movie.imdbid}">
+                                                <button class="btn btn-default">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

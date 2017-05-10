@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Created by Dominik on 8.5.2017.
+ * Trieda ktorá reprezentuje špecifické detaily o entite user
+ * @author Andrej Ščasný, Dominik Števlík
  */
 public class UserDetails implements Serializable{
 

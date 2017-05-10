@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Dominik on 4.5.2017.
+ * Pomocný servlet pre nastavenie lokalizácie
+ * @author Andrej Ščasný, Dominik Števlík
  */
 
 @WebServlet("/content/locale")

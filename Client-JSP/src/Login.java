@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * Servlet ktorý sa stará o prihlásenie používateľa
+ * @author Andrej Ščasný, Dominik Števlík
+ */
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 

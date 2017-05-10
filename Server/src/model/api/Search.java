@@ -6,6 +6,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+/**
+ * Trieda ktorá sa používa pri enkapsulácií JSON responsu do triedy
+ * Jedná sa o údaje vyhľadaných filmov
+ * @author Andrej Ščasný
+ */
+
 public class Search implements Serializable{
 
     @SerializedName("Title")

@@ -3,8 +3,8 @@ package model;
 import java.io.Serializable;
 
 /**
- * Author : Andrej Ščasný
- * Date : 28.04.2017
+ * Trieda ktorá reprezentuje Odpoveď zo serveru, zabalujú sa do ňej chybové hlášky, kód o úspechu, a samotné dáta
+ * @author Andrej Ščasný
  */
 public class Response implements Serializable {
     // -1 Error

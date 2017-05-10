@@ -5,6 +5,12 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Trieda ktorá sa používa pri enkapsulácií JSON responsu do triedy
+ * Jedná sa o výsledok hladania filmu z API
+ * @author Andrej Ščasný
+ */
+
 public class SearchApiResponse {
 
     @SerializedName("Search")

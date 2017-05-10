@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Filter ktorý ošetruje autentifikáciu usera, kontroluje Session
+ * @author Andrej Ščasný, Dominik Števlík
+ */
 @WebFilter("/content/*")
 public class LoginFilter implements Filter {
 

@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Author : Andrej Ščasný
- * Timestamp : 24.04.2017
+ * Trieda reprezentujúca entitu používateľa
+ * @author Andrej Ščasný, Dominik Števlík
  */
 public class User implements Serializable{
     private int id;

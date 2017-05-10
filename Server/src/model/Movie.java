@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Author : Andrej Ščasný
- * Date : 03.05.2017
+ * Trieda ktorá reprezentuje Entitu filmu v databáze
+ * @author Andrej Ščasný, Dominik Števlík
  */
 public class Movie implements Serializable {
     private String imdbid;

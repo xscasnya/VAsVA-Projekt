@@ -20,7 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Dominik on 25.4.2017.
+ * Stateless beana, ktorá sa stará o získavanie informácií o roomkach.
+ * @author Dominik Števlík
  */
 
 @Stateless
@@ -29,6 +30,12 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
     private static final Logger LOG = Logger.getLogger("beans.room");
 
+    /**
+     * Vytvorí QR kód na základe roomID
+     * @param roomID ID danej roomky
+     * @param conn pripojenie na databázu
+     * @return vráti true ak bol QR kód úspešne vygenerovaný, inak vráti false
+     */
     public boolean createQrCode(int roomID, Connection conn) {
         LOG.log(Level.INFO,"Vytvaram QR code");
         byte[] array = null;
@@ -72,6 +79,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return true;
     }
 
+    /**
+     * Metóda vráti QR kód ako byte[]
+     * @param roomID ID danej roomky
+     * @return vráti Response objekt, ktorý obsahuje dáta ako byte[]
+     */
     public Response getQrCode(int roomID) {
         Response resp = new Response();
 
@@ -125,6 +137,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return resp;
     }
 
+    /**
+     * Metóda vytvorí roomku
+     * @param room objekt roomky, ktorý obsahuje všetky potrebné informácie k vytvoreniu záznamu v DB
+     * @return vráti true, ak bol záznam úspešne pridaný, inak false
+     */
     public boolean createRoom(Room room) {
         LOG.log(Level.INFO,"Spustam vytvaranie miestnosti");
         Boolean success = true;
@@ -213,6 +230,12 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return success;
     }
 
+    /**
+     * Metóda vloží záznam do prepojovacej tabuľky
+     * @param userID ID usera, ktorý je pridávaný do roomky
+     * @param roomID ID roomky do ktorej je user pridaný
+     * @return vráti true, ak všetko prebehlo bez chýb, inak false
+     */
     public boolean insertUserToRoom(int userID, int roomID) {
         LOG.log(Level.INFO,"Spustam insertnutie usera");
         Boolean success = true;
@@ -283,6 +306,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
     }
 
 
+    /**
+     * Metóda vráti zoznam všetkých roomok daného usera
+     * @param id ID usera
+     * @return vráti Response objekt, ktorý obsahuje dáta ako List<Room>
+     */
     public Response getUserRooms(int id) {
         LOG.log(Level.INFO,"Spustam ziskanie miestnosti pre pouzivatela");
         Response resp = new Response();
@@ -339,6 +367,10 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
     }
 
+    /**
+     * Metóda vráti všetky typy roomok z číselníka
+     * @return vráti Response objekt, ktorý obsahuje dáta ako List<RoomType>
+     */
     @Override
     public Response getRoomTypes() {
         Response resp = new Response();
@@ -393,6 +425,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
     }
 
+    /**
+     * Metóda zistí roomku na základe ID a vráti ju
+     * @param id ID roomky
+     * @return vráti Response objekt, ktorý obsahuje dáta ako Room
+     */
     public Response getRoom(int id)
     {
         Response resp = new Response();
@@ -446,6 +483,12 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return resp;
     }
 
+    /**
+     * Metóda zistí či je daný user v danej roomke
+     * @param userID ID usera
+     * @param roomID ID roomky
+     * @return true ak je user v roomke alebo sa vyskytne chyba, false ak nie je
+     */
     public boolean isUserInRoom(int userID, int roomID) {
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -493,7 +536,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return result;
     }
 
-
+    /**
+     * Vytvorí z resultsetu objekt
+     * @param rs resultset z DB
+     * @return Vráti RoomType alebo null, ak nastala chyba
+     */
     public RoomType processRowRoomType(ResultSet rs) {
         try {
             return new RoomType(rs.getInt("id"),rs.getString("type"));
@@ -504,6 +551,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
     }
 
+    /**
+     * Vytvorí z resultsetu objekt
+     * @param rs resultset z DB
+     * @return Vráti Movie alebo null, ak nastala chyba
+     */
     public Movie processMovieRow (ResultSet rs) {
         try {
             return new Movie(rs.getString("imdbid"),rs.getString("title"),rs.getString("year"),rs.getString("director"),
@@ -515,6 +567,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
     }
 
+    /**
+     * Vytvorí z resultsetu objekt
+     * @param rs resultset z DB
+     * @return Vráti Room alebo null, ak nastala chyba
+     */
     public Room processRowRoom(ResultSet rs) {
         try {
             return new Room(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getInt("type_id"), rs.getTimestamp("created_at"), rs.getInt("created_by"), rs.getString("description"), rs.getBytes("qrcode"));
@@ -525,6 +582,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         }
     }
 
+    /**
+     * Metóda zistí počet userov v roomke
+     * @param roomID ID roomky
+     * @return Vráti -1 pri chybe, inak počet userov
+     */
     public int getUsersCount(int roomID) {
         LOG.log(Level.INFO,"Zacinam nacitavat pocet userov pre room: " + roomID);
         PreparedStatement stmt = null;
@@ -578,6 +640,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return result;
     }
 
+    /**
+     * Metóda zistí počet filmov v miestnosti
+     * @param roomID ID roomky
+     * @return Vráti -1 pri chybe, inak počet filmov
+     */
     public int getFilmsCount(int roomID) {
         LOG.log(Level.INFO,"Zacinam nacitavat pocet filmov pre room: " + roomID);
         PreparedStatement stmt = null;
@@ -634,6 +701,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return result;
     }
 
+    /**
+     * Metóda zistí počet roomiek pre daného usera
+     * @param userID ID usera
+     * @return Vráti -1 pri chybe, inak počet filmov
+     */
     public int getRoomsCount(int userID) {
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -684,6 +756,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return result;
     }
 
+    /**
+     * Zistí všetky filmy v roomke
+     * @param roomID ID roomky
+     * @return vráti Response objekt, ktorý obsahuje dáta ako List<Movie>
+     */
     public Response getMovies(int roomID) {
         LOG.log(Level.INFO,"Nacitavam vsetky filmy pre miestnost : " + roomID);
         Response resp = new Response();
@@ -742,6 +819,13 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         return resp;
     }
 
+    /**
+     * Pridá film do danej roomky
+     * @param movie Film zístaný z API
+     * @param roomID ID roomky
+     * @param userID ID usera, ktorý pridal film
+     * @return
+     */
     public Response addMovie (ApiMovie movie, int roomID, int userID) {
         LOG.log(Level.INFO,"Pridavam film");
         Response resp = new Response();

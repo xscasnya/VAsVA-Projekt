@@ -5,6 +5,10 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Trieda ktorá je súčasťou triedz ApiMovie, enkapsulujú sa do ňej hodnotenia z JSON objektu
+ * @author Andrej Ščasný
+ */
 public class Rating implements Serializable
 {
 

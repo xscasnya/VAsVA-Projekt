@@ -16,10 +16,17 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 /**
- * Created by Dominik on 9.5.2017.
+ * Trieda ktorá sa stará o generovanie QR kódov
  */
 public class QRCodeGenerator {
 
+    /**
+     * Metóda ktorá vracia bytové pole daného qr kódu
+     * @param url URL na ktorú chceme odkazovať cez QR kód
+     * @return
+     * @throws WriterException
+     * @throws IOException
+     */
     public static byte[] GenerateQRCode(String url) throws WriterException, IOException {
 
         int size = 250;

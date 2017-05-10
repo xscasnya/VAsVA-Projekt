@@ -3,8 +3,7 @@ package model;
 import java.io.Serializable;
 
 /**
- * Author : Andrej Ščasný
- * Date : 26.04.2017
+ * Trieda ktorá reprezentuje typ miestností (Public alebo private)
  */
 public class RoomType implements Serializable{
     private int id;

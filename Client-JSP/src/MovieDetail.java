@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Author : Andrej Ščasný
- * Date : 04.05.2017
+ * Servlet ktorý sa stará o zobrazenie detailov jednotlivých filmov
+ * @author Andrej Ščasný, Dominik Števlík
  */
 
 @WebServlet("/content/movieDetail")

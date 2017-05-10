@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Dominik on 27.4.2017.
+ * Servlet ktorý sa stará o pripojenie k miestnosti
+ * @author Andrej Ščasný, Dominik Števlík
  */
-
-
 @WebServlet("/content/joinRoom")
 public class JoinRoom extends HttpServlet{
 

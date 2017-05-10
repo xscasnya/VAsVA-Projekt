@@ -14,6 +14,11 @@ import java.util.List;
  * Author : Andrej Ščasný
  * Date : 03.05.2017
  */
+
+/**
+ * Servlet ktorý sa stará o vyhľadanie filmov a následne presmerovanie na samotné pridanie filmov do miestností
+ * @author Andrej Ščasný, Dominik Števlík
+ */
 @WebServlet("/content/addmovie")
 public class AddMovie extends HttpServlet {
     @EJB

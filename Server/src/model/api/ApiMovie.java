@@ -6,6 +6,11 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Trieda ktorá sa používa pri enkapsulácií JSON resposnu do triedy
+ * @author Andrej Ščasný
+ */
+
 public class ApiMovie implements Serializable
 {
 

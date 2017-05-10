@@ -16,7 +16,10 @@ import java.util.Calendar;
 import java.util.List;
 
 
-
+/**
+ * Servlet ktorý sa stará o vytvorenie miestností
+ * @author Andrej Ščasný, Dominik Števlík
+ */
 @WebServlet("/content/createRoom")
 public class CreateRoom extends HttpServlet {
 

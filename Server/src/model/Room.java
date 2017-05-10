@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Created by Dominik on 25.4.2017.
+ * Trieda reprezentujúca samotnú miestnosť.
  */
 public class Room implements Serializable {
     private int id;

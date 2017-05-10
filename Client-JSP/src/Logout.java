@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Author : Andrej Ščasný
- * Date : 03.05.2017
+ * Servlet ktorý sa stará o odhlásenie používateľa
+ * @author Andrej Ščasný, Dominik Števlík
  */
 @WebServlet("/content/logout")
 public class Logout extends HttpServlet {

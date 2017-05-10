@@ -8,8 +8,8 @@ import javax.ejb.Remote;
 import java.util.List;
 
 /**
- * Remote rozhranie beans.user.UserPersistentBean-y pre pristup z klienta/klientov
- * @author Dominik
+ * Remote interface pre UserPersistentBeanu
+ * @author Andrej Ščasný, Dominik Števlík
  */
 @Remote
 public interface UserPersistentBeanRemote {

@@ -14,10 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Author : Andrej Ščasný
- * Date : 08.05.2017
+ * Servlet ktorý sa stará o pridanie filmu do miestností
+ * @author Andrej Ščasný, Dominik Števlík
  */
-
 
 @WebServlet("/content/doAddMovie")
 public class DoAddMovie extends HttpServlet {

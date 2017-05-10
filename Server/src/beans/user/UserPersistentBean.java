@@ -19,7 +19,8 @@ import java.util.logging.Logger;
 
 
 /**
- * Jednoducha stateless session beana
+ * Stateless Beana ktorá sa stará o entitu User
+ * @author Andrej Ščasný, Dominik Števlík
  */
 @Stateless
 @Remote(UserPersistentBeanRemote.class)
@@ -27,6 +28,12 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
 
     private static Logger LOG = Logger.getLogger("beans.user");
 
+    /**
+     * Metóda ktorá autentifikuje Usera
+     * @param nickname Prihlasovacie meno používateľa
+     * @param password Heslo používateľa
+     * @return Response
+     */
     public Response getAuthentication(String nickname, String password) {
         LOG.log(Level.INFO,"Zacinam overenie pouzivatela");
         Response resp = new Response();
@@ -86,6 +93,11 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
         return resp;
     }
 
+    /**
+     * Metóda ktorá načítava všetkých používateľov v miestnosti
+     * @param roomID ID miestnosti ktorá je načítana
+     * @return List miestností
+     */
     public Response getUsersInRoom(int roomID)
     {
         LOG.log(Level.INFO,"Zacinam nacitavat userov v roomke " + roomID);
@@ -146,6 +158,11 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
         return resp;
     }
 
+    /**
+     * Spracovanie result setu z databázy
+     * @param rs Result set
+     * @return Vracia nový objekt používateľskách detailov
+     */
     public UserDetails processRowUserDetails(ResultSet rs) {
         try {
             return new UserDetails(rs.getInt("id"), rs.getString("nickname"), rs.getTimestamp("joined_at"), rs.getInt("count"));
@@ -156,7 +173,11 @@ public class UserPersistentBean implements UserPersistentBeanRemote {
         }
     }
 
-
+    /**
+     * Metóda ktorá spracováva result set z databázy
+     * @param rs Result Set
+     * @return Response a zabalená entita User
+     */
     public Response processRow(ResultSet rs) {
         Response resp = new Response();
         try {

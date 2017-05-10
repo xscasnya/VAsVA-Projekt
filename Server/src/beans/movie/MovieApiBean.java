@@ -19,6 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+/**
+ * Stateless Beana ktorá spracováva filmy, podrobnosti o filmoch z IMDB API
+ * @author Andrej Ščasný
+ */
 @Stateless
 @Remote(MovieApiBeanRemote.class)
 public class MovieApiBean implements MovieApiBeanRemote {
@@ -28,7 +32,13 @@ public class MovieApiBean implements MovieApiBeanRemote {
     private static final int DO_SEARCH = 1;
     private static final int DO_GET_ID = 0;
 
-    @Override
+    /**
+     * Metóda ktorá vyhľadá filmy na základe parametrov
+     * @param movie Názov titulku filmu
+     * @param year Rok vydania filmu
+     * @param type Typ filmu , epizoda, seriál, film
+     * @return Vráti Response v ktorom je zabalený kód, description a samotné dáta
+     */
     public Response searchMovie(String movie, int year, String type) {
         LOG.log(Level.INFO,"Spustam vyhladanie filmu");
         Response resp = new Response();
@@ -73,6 +83,11 @@ public class MovieApiBean implements MovieApiBeanRemote {
         return resp;
     }
 
+    /**
+     * Metóda ktorá vyhľadá film na základe imdb id
+     * @param imdb_ID IMDB ID filmu
+     * @return
+     */
     public Response getMovie(String imdb_ID){
         Response resp = new Response();
         Gson gson = new Gson();
@@ -116,6 +131,12 @@ public class MovieApiBean implements MovieApiBeanRemote {
         return resp;
     }
 
+    /**
+     * Pomocná metóda na poslanie GET requestu na danú URL, vracia String ktorý sa potom mení do JSON
+     * @param urlAddress URL adresa na ktorú sa posiela GET request
+     * @return
+     * @throws Exception
+     */
     // HTTP GET request
     private String sendGet(String urlAddress) throws Exception {
 
@@ -148,6 +169,16 @@ public class MovieApiBean implements MovieApiBeanRemote {
 
 
     // 0 -> search , 1 -> get
+
+    /**
+     * Metóda ktorá skladá URL adresu ktorá sa použije na API request
+     * @param i Parameter ktorý označuje typ requestu, 0 je search , 1 je get
+     * @param movie Názov filmu
+     * @param year Rok vydania
+     * @param type Typ filmu
+     * @param imdb_ID IMDB id filmu
+     * @return
+     */
     public StringBuilder getReqUrl(int i,String movie, int year, String type, String imdb_ID) {
         DatabaseConfig cfg = DatabaseConfig.getInstance();
         StringBuilder url = new StringBuilder(DatabaseConfig.getInstance().getApiUrl().toString());

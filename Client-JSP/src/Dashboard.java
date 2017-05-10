@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-
+/**
+ * Servlet ktorý sa stará o prehľad v systéme
+ * @author Andrej Ščasný, Dominik Števlík
+ */
 @WebServlet("/content/dashboard")
 public class Dashboard extends HttpServlet {
 

@@ -10,7 +10,8 @@ import java.sql.Connection;
 import java.util.List;
 
 /**
- * Created by Dominik on 25.4.2017.
+ * Remote interface pre RoomPersistentBeanu
+ * @author Andrej Ščasný, Dominik Števlík
  */
 @Remote
 public interface RoomPersistentBeanRemote {

@@ -12,7 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-
+/**
+ * Servlet ktorý sa stará o zobrazenie miestností
+ * @author Andrej Ščasný, Dominik Števlík
+ */
 @WebServlet("/content/rooms")
 public class Rooms extends HttpServlet {
 

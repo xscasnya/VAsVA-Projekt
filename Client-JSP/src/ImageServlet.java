@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by Dominik on 10.5.2017.
+ * Servlet ktorý sa stará o zobrazenie daného qr kódu z byte poľa
+ * @author Andrej Ščasný, Dominik Števlík
  */
 @WebServlet("/content/imageServlet")
 public class ImageServlet extends HttpServlet{

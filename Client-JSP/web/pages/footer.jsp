@@ -7,5 +7,5 @@
         <fmt:message key="footer.title"/>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> <fmt:message key="footer.copyright"/>
+    <strong>Copyright &copy; 2016 <a href="#">VAsVAProjekt</a>.</strong> <fmt:message key="footer.copyright"/>
 </footer>

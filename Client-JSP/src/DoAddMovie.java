@@ -40,13 +40,12 @@ public class DoAddMovie extends HttpServlet {
         Response res = remote.getMovie(req.getParameter("mID"));
         if (res.getCode() == Response.success) {
             ApiMovie movie = (ApiMovie) res.getData();
-            Response addResp = roomRemote.addMovie(movie,Integer.parseInt(roomID),((User)req.getSession().getAttribute("user")).getId());
-            req.setAttribute("addResp",addResp);
+            Response addResp = roomRemote.addMovie(movie, Integer.parseInt(roomID), ((User) req.getSession().getAttribute("user")).getId());
+            req.setAttribute("addResp", addResp);
         }
 
 
-
-       req.getRequestDispatcher("/content/addMovie.jsp" + "?id=" + req.getParameter("roomID")).forward(req,resp);
+        resp.sendRedirect(req.getContextPath() + "/content/rooms" + "?id=" + req.getParameter("roomID"));
     }
 
     @Override

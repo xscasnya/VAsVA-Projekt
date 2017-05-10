@@ -44,18 +44,25 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary box-solid collapsed-box">
-                        <div class="box-header with-border" data-widget="collapse">
+                        <div class="box-header with-border">
                             <h3 class="box-title"><fmt:message key="room.description"/></h3>
 
                             <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-plus"></i>
                                 </button>
                             </div>
                             <!-- /.box-tools -->
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body" style="display: none;">
-                            ${actualRoom.description}
+
+                            <div class="col-md-10">
+                                ${actualRoom.description}
+                            </div>
+                            <div class="col-md-2">
+                                <img src="imageServlet?id=${actualRoom.id}" class="pull-right"/>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -129,31 +136,43 @@
                                     <th><fmt:message key="room.tableColumnOptions"/></th>
                                 </tr>
                                 </thead>
-                                <tbody> <%-- TODO Farebny rating --%>
+                                <tbody>
                                 <c:forEach var="movie" items="${movies}">
-                                    <fmt:parseNumber var="rating" integerOnly="true" type="number"
-                                                     value="${(movie.imdbRating/10)*100}"/>
+                                    <c:if test="${!movie.imdbRating.equals('N/A')}">
+                                        <fmt:parseNumber var="rating" integerOnly="true" type="number"
+                                                         value="${(movie.imdbRating/10)*100}"/>
+                                    </c:if>
+                                    <c:if test="${movie.imdbRating.equals('N/A')}">
+                                        <c:set var="rating" value="N/A"/>
+                                    </c:if>
+
                                     <tr role="row" class="odd">
                                         <td><c:out value="${movie.title}"/></td>
                                         <td><c:out value="${movie.year}"/></td>
                                         <td><c:out value="${movie.director}"/></td>
                                         <td><c:out value="${movie.length}"/></td>
                                         <td><c:out value="${movie.genre}"/></td>
-                                        <td>
-                                            <c:if test="${rating > 0 && rating < 40}">
+                                        <td><c:if test="${rating.equals('N/A')}">
                                                 <span class="badge bg-red">
-                                                <c:out value="${rating}"/>%
+                                                        <c:out value="N/A"/>
                                                 </span>
                                             </c:if>
-                                            <c:if test="${rating >= 40 && rating < 70}">
-                                                <span class="badge bg-yellow">
-                                                <c:out value="${rating}"/>%
-                                                </span>
-                                            </c:if>
-                                            <c:if test="${rating >= 70}">
-                                                <span class="badge bg-green">
-                                                <c:out value="${rating}"/>%
-                                                </span>
+                                            <c:if test="${!rating.equals('N/A')}" >
+                                                <c:if test="${rating > 0 && rating < 40}">
+                                                    <span class="badge bg-red">
+                                                    <c:out value="${rating}"/>%
+                                                    </span>
+                                                </c:if>
+                                                <c:if test="${rating >= 40 && rating < 70}">
+                                                    <span class="badge bg-yellow">
+                                                    <c:out value="${rating}"/>%
+                                                    </span>
+                                                </c:if>
+                                                <c:if test="${rating >= 70}">
+                                                    <span class="badge bg-green">
+                                                    <c:out value="${rating}"/>%
+                                                    </span>
+                                                </c:if>
                                             </c:if>
                                         </td>
 

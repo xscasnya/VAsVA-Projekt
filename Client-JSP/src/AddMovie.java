@@ -21,7 +21,6 @@ public class AddMovie extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int roomID = Integer.parseInt(req.getParameter("id"));
         req.getRequestDispatcher("/content/addMovie.jsp").forward(req, resp);
     }
 

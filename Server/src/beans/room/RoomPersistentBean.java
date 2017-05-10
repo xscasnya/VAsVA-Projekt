@@ -10,6 +10,7 @@ import org.postgresql.ds.PGPoolingDataSource;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,7 +27,103 @@ import java.util.logging.Logger;
 @Remote(RoomPersistentBeanRemote.class)
 public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
-    private static Logger LOG = Logger.getLogger("beans.room");
+    private static final Logger LOG = Logger.getLogger("beans.room");
+
+    public boolean createQrCode(int roomID, Connection conn) {
+        LOG.log(Level.INFO,"Vytvaram QR code");
+        byte[] array = null;
+
+        try {
+            array = QRCodeGenerator.GenerateQRCode("http://localhost:8180/ClientJSP/content/joinRoom?id=" + roomID);
+        } catch (Exception e) {
+            e.printStackTrace();
+           LOG.log(Level.SEVERE,"Chyba pri generovani QR kodu",e);
+           return false;
+        }
+
+        PreparedStatement stmt;
+
+        try {
+            stmt = conn.prepareStatement("UPDATE room SET qrcode = ? WHERE id = ?");
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.log(Level.SEVERE,"Chyba pri vytarani dopytu",e);
+            return false;
+        }
+
+        try {
+            stmt.setBytes(1, array);
+            stmt.setInt(2,roomID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.log(Level.SEVERE,"Chyba pri posielani bytov qr kodu",e);
+            return false;
+        }
+
+        try {
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonani updatu s qr codom",e);
+            e.printStackTrace();
+            return false;
+        }
+
+
+        return true;
+    }
+
+    public Response getQrCode(int roomID) {
+        Response resp = new Response();
+
+        PreparedStatement getQR = null;
+        Connection conn = null;
+
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
+            e.printStackTrace();
+            resp.setCode(Response.error);
+            resp.setDescription("DB error");
+        }
+
+        String getSQL = "SELECT qrcode FROM room WHERE id = ?";
+
+        try {
+            getQR = conn.prepareStatement(getSQL);
+            getQR.setInt(1,roomID);
+
+            ResultSet rs = getQR.executeQuery();
+
+            if(rs.next()) {
+                resp.setData(rs.getBytes("qrcode"));
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.log(Level.SEVERE,"Chyba pri spusteni dopytu",e);
+            resp.setCode(Response.error);
+            resp.setDescription("Error with database query.");
+
+        } finally {
+            try {
+                if (getQR != null) getQR.close();
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani connetction",e);
+            }
+
+        }
+
+        return resp;
+    }
 
     public boolean createRoom(Room room) {
         LOG.log(Level.INFO,"Spustam vytvaranie miestnosti");
@@ -48,7 +145,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn.setAutoCommit(false);
-            insertRoom = conn.prepareStatement("INSERT INTO room VALUES (DEFAULT,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            insertRoom = conn.prepareStatement("INSERT INTO room VALUES (DEFAULT,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             insertUserRoom = conn.prepareStatement("INSERT INTO user_in_room VALUES (?,?,?,?)");
 
             insertRoom.setString(1,room.getName());
@@ -57,11 +154,19 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             insertRoom.setTimestamp(4,room.getCreated_at());
             insertRoom.setInt(5,room.getCreated_by());
             insertRoom.setString(6,room.getDescription());
+            insertRoom.setBytes(7,null);
 
             insertRoom.executeUpdate();
 
-            if(insertRoom.getGeneratedKeys().next())
+            if(insertRoom.getGeneratedKeys().next()) {
                 roomID = insertRoom.getGeneratedKeys().getInt(1);
+                if(!createQrCode(roomID,conn)){
+                    conn.rollback();
+                    return false;
+                }
+            }
+
+
 
             insertUserRoom.setInt(1,room.getCreated_by());
             insertUserRoom.setInt(2,roomID);
@@ -243,7 +348,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
         try {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
             resp.setCode(Response.error);
@@ -412,7 +517,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
 
     public Room processRowRoom(ResultSet rs) {
         try {
-            return new Room(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getInt("type_id"), rs.getTimestamp("created_at"), rs.getInt("created_by"), rs.getString("description"));
+            return new Room(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getInt("type_id"), rs.getTimestamp("created_at"), rs.getInt("created_by"), rs.getString("description"), rs.getBytes("qrcode"));
         } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri spracovani resultu z DB",e);
             e.printStackTrace();

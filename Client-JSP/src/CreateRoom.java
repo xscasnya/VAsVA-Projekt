@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
+
 @WebServlet("/content/createRoom")
 public class CreateRoom extends HttpServlet {
 
@@ -54,17 +55,38 @@ public class CreateRoom extends HttpServlet {
             req.setAttribute("valid",true);
             req.setAttribute("ejbError",true);
 
+            byte[] image = null;
+
             int userID = ((User)req.getSession().getAttribute("user")).getId();
             Timestamp now = new Timestamp(Calendar.getInstance().getTime().getTime());
-            Room room = new Room(roomName,password,Integer.parseInt(roomType),now,userID,description);
+            Room room = new Room(roomName,password,Integer.parseInt(roomType),now,userID,description, image);
 
             if(remote.createRoom(room)){
                 req.setAttribute("ejbError",false);
                 req.getSession().setAttribute("rooms",remote.getUserRooms(userID));
+                //resp.sendRedirect(req.getContextPath()+"/content/dashboard");
+                rereshRooms(req);
             }
 
         }
 
+
         req.getRequestDispatcher("/content/createRoom.jsp").forward(req, resp);
+    }
+
+    public void rereshRooms(HttpServletRequest req) {
+        Response response1 =  remote.getUserRooms(((User)req.getSession().getAttribute("user")).getId());
+        List<Room> rooms = null;
+
+        if(response1.getCode() == Response.error)
+        {
+            // TODO osetrit a vypisat error
+        }
+        else
+        {
+            rooms = (List<Room>) response1.getData();
+        }
+
+        req.getSession().setAttribute("rooms", rooms);
     }
 }

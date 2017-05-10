@@ -1,3 +1,5 @@
+package model;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -8,6 +10,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -17,11 +20,12 @@ import java.util.Hashtable;
  */
 public class QRCodeGenerator {
 
-    public static File GenerateQRCode(String url) throws WriterException, IOException {
+    public static byte[] GenerateQRCode(String url) throws WriterException, IOException {
 
         int size = 250;
-        String fileType = "png";
-        File qrFile = new File("images\\qrcode.png");
+       // String fileType = "png";
+
+       // File qrFile = new File("images\\qrcode.png");
 
         Hashtable hintMap = new Hashtable();
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
@@ -31,8 +35,10 @@ public class QRCodeGenerator {
         BitMatrix byteMatrix = writer.encode(url, BarcodeFormat.QR_CODE, size, size, hintMap);
 
         int matrixWidth = byteMatrix.getWidth();
-        BufferedImage image = new BufferedImage(matrixWidth, matrixWidth,
-                BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
         image.createGraphics();
 
         Graphics2D graphics = (Graphics2D) image.getGraphics();
@@ -48,8 +54,15 @@ public class QRCodeGenerator {
                 }
             }
         }
-        ImageIO.write(image, fileType, qrFile);
 
-        return qrFile;
+        if (!ImageIO.write(image, "png", stream)) {
+            throw new IOException("Could not write an image of format " + "png");
+        }
+
+        return stream.toByteArray();
+
+
+        //ImageIO.write(image, fileType, qrFile);
+
     }
 }

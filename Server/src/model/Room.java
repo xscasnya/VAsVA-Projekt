@@ -14,8 +14,9 @@ public class Room implements Serializable {
     private Timestamp created_at;
     private int created_by;
     private String description;
+    private byte[] byte_image;
 
-    public Room(int id, String name, String password, int type_id, Timestamp created_at, int created_by, String description) {
+    public Room(int id, String name, String password, int type_id, Timestamp created_at, int created_by, String description, byte[] byte_image) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -23,16 +24,18 @@ public class Room implements Serializable {
         this.created_at = created_at;
         this.created_by = created_by;
         this.description = description;
+        this.byte_image = byte_image;
     }
 
     // Constructor used when creating room and sending object to EJB
-    public Room(String name, String password, int type_id, Timestamp created_at, int created_by, String description) {
+    public Room(String name, String password, int type_id, Timestamp created_at, int created_by, String description, byte[] byte_image) {
         this.name = name;
         this.password = password;
         this.type_id = type_id;
         this.created_at = created_at;
         this.created_by = created_by;
         this.description = description;
+        this.byte_image = byte_image;
     }
 
     public String getDescription() {
@@ -89,5 +92,9 @@ public class Room implements Serializable {
 
     public void setCreated_by(int created_by) {
         this.created_by = created_by;
+    }
+
+    public byte[] getByte_image() {
+        return byte_image;
     }
 }

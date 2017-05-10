@@ -6,6 +6,7 @@ import model.RoomType;
 import model.api.ApiMovie;
 
 import javax.ejb.Remote;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -23,7 +24,8 @@ public interface RoomPersistentBeanRemote {
     public int getRoomsCount(int userID);
     public Response addMovie (ApiMovie movie, int roomID, int userID);
     public Response getMovies(int roomID);
-
+    public boolean createQrCode(int roomID, Connection conn);
+    public Response getQrCode(int roomID);
     // mozno do inej beany
     public int getUsersCount(int roomID);
     public int getFilmsCount(int roomID);

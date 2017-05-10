@@ -1,12 +1,6 @@
-import beans.room.RoomPersistentBean;
 import beans.room.RoomPersistentBeanRemote;
-import beans.user.UserPersistentBean;
 import beans.user.UserPersistentBeanRemote;
-import com.google.zxing.WriterException;
-import model.Movie;
-import model.Response;
-import model.Room;
-import model.UserDetails;
+import model.*;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -45,12 +39,6 @@ public class Rooms extends HttpServlet {
 
         response = remoteUser.getUsersInRoom(roomID);
 
-        try {
-            File file = QRCodeGenerator.GenerateQRCode("http://localhost:8180/ClientJSP/content/joinRoom?id=" + roomID);
-        } catch (WriterException e) {
-            e.printStackTrace();
-            // TODO vypisat error
-        }
 
         if(response.getCode() == Response.error)
         {

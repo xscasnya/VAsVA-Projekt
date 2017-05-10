@@ -14,10 +14,10 @@ import java.util.List;
 @Remote
 public interface RoomPersistentBeanRemote {
 
-    public List<Room> getUserRooms(int id);
-    public List<RoomType> getRoomTypes();
+    public Response getUserRooms(int id);
+    public Response getRoomTypes();
     public boolean createRoom(Room room);
-    public Room getRoom(int id);
+    public Response getRoom(int id);
     public boolean insertUserToRoom(int userID, int roomID);
     public boolean isUserInRoom(int userID, int roomID);
     public int getRoomsCount(int userID);

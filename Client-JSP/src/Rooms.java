@@ -31,9 +31,19 @@ public class Rooms extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int roomID = Integer.parseInt(req.getParameter("id"));
-        Room actualRoom = remoteRoom.getRoom(roomID);
-        System.out.println("descr " + actualRoom.getDescription());
-        Response response = remoteUser.getUsersInRoom(roomID);
+        Response response = remoteRoom.getRoom(roomID);
+        Room actualRoom = null;
+        if(response.getCode() == Response.error)
+        {
+            // TODO osetrit a vypisat error
+        }
+        else
+        {
+            actualRoom = (Room)response.getData();
+        }
+
+
+        response = remoteUser.getUsersInRoom(roomID);
 
         try {
             File file = QRCodeGenerator.GenerateQRCode("http://localhost:8180/ClientJSP/content/joinRoom?id=" + roomID);

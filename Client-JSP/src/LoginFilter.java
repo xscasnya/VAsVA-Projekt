@@ -1,4 +1,5 @@
 import beans.room.RoomPersistentBeanRemote;
+import model.Response;
 import model.Room;
 import model.User;
 
@@ -34,7 +35,18 @@ public class LoginFilter implements Filter {
         else {
 
             if (req.getSession().getAttribute("rooms") == null) {
-                List<Room> rooms = remoteRoom.getUserRooms(((User)req.getSession().getAttribute("user")).getId());
+                Response response1 =  remoteRoom.getUserRooms(((User)req.getSession().getAttribute("user")).getId());
+                List<Room> rooms = null;
+
+                if(response1.getCode() == Response.error)
+                {
+                    // TODO osetrit a vypisat error
+                }
+                else
+                {
+                    rooms = (List<Room>) response1.getData();
+                }
+
                 req.getSession().setAttribute("rooms", rooms);
             }
 

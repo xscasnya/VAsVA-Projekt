@@ -1,4 +1,5 @@
 import beans.room.RoomPersistentBeanRemote;
+import model.Response;
 import model.Room;
 import model.RoomType;
 import model.User;
@@ -23,7 +24,18 @@ public class CreateRoom extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<RoomType> list = remote.getRoomTypes();
+        Response response = remote.getRoomTypes();
+        List<RoomType> list = null;
+
+        if(response.getCode() == Response.error)
+        {
+            // TODO osetrit a vypisat error
+        }
+        else
+        {
+            list = (List<RoomType>)response.getData();
+        }
+
         req.getSession().setAttribute("roomTypes",list);
         req.getRequestDispatcher("/content/createRoom.jsp").forward(req, resp);
     }

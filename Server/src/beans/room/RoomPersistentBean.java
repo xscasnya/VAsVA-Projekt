@@ -178,8 +178,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
     }
 
 
-    public List<Room> getUserRooms(int id) {
+    public Response getUserRooms(int id) {
         LOG.log(Level.INFO,"Spustam ziskanie miestnosti pre pouzivatela");
+        Response resp = new Response();
 
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -190,7 +191,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
-            return null;
+            resp.setCode(Response.error);
+            resp.setDescription("Connection to database failed!");
+            rooms = null;
         }
 
         String getSQL = "SELECT * from room r JOIN user_in_room ur ON r.id = ur.room_id where ur.user_id = ?";
@@ -209,6 +212,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
+            resp.setCode(Response.error);
+            resp.setDescription("Error with database query.");
+            rooms = null;
 
         } finally {
             try {
@@ -223,12 +229,14 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
                 LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
             }
 
-            return rooms;
+            resp.setData(rooms);
+            return resp;
         }
     }
 
     @Override
-    public List<RoomType> getRoomTypes() {
+    public Response getRoomTypes() {
+        Response resp = new Response();
         PreparedStatement stmt = null;
         Connection conn = null;
         List<RoomType> rooms = null;
@@ -238,7 +246,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         } catch (SQLException e) {
             LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
             e.printStackTrace();
-            return null;
+            resp.setCode(Response.error);
+            resp.setDescription("Connection to database failed!");
+            rooms = null;
         }
 
         String getSQL = "SELECT * FROM room_type";
@@ -256,6 +266,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
         } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
+            resp.setCode(Response.error);
+            resp.setDescription("Error with database query.");
+            rooms = null;
 
         } finally {
             try {
@@ -270,12 +283,14 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
                 LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
             }
 
-            return rooms;
+            resp.setData(rooms);
+            return resp;
         }
     }
 
-    public Room getRoom(int id)
+    public Response getRoom(int id)
     {
+        Response resp = new Response();
         PreparedStatement stmt = null;
         Connection conn = null;
         Room room = null;
@@ -284,6 +299,8 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             conn = DatabaseConfig.getInstance().getSource().getConnection();
         } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
+            resp.setCode(Response.error);
+            resp.setDescription("Connection to database failed!");
             e.printStackTrace();
         }
 
@@ -297,10 +314,11 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
                 room = processRowRoom(rs);
             }
 
-
         } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
             e.printStackTrace();
+            resp.setCode(Response.error);
+            resp.setDescription("Error with database query.");
             room = null;
         } finally {
             try {
@@ -318,7 +336,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             }
 
         }
-        return room;
+
+        resp.setData(room);
+        return resp;
     }
 
     public boolean isUserInRoom(int userID, int roomID) {
@@ -401,6 +421,7 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
     }
 
     public int getUsersCount(int roomID) {
+        LOG.log(Level.INFO,"Zacinam nacitavat pocet userov pre room: " + roomID);
         PreparedStatement stmt = null;
         Connection conn = null;
         Room room = null;
@@ -424,6 +445,9 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             if(rs.next()) {
                 result = rs.getInt("count");
             }
+            else{
+                result = 0;
+            }
 
         } catch (Exception e) {
             LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
@@ -445,12 +469,64 @@ public class RoomPersistentBean implements RoomPersistentBeanRemote {
             }
         }
 
+        LOG.log(Level.INFO,"Nacitavanie poctu userov pre room: " + roomID + " ukoncene uspesne");
         return result;
     }
 
     public int getFilmsCount(int roomID) {
-        // TODO ak sa urobia filmy, tak tu potrebujem select
-        return 0;
+        LOG.log(Level.INFO,"Zacinam nacitavat pocet filmov pre room: " + roomID);
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        Room room = null;
+        int result = -1;
+
+        try {
+            conn = DatabaseConfig.getInstance().getSource().getConnection();
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri nacitani DB connection",e);
+            e.printStackTrace();
+            result = -1;
+        }
+
+        String getSQL = "SELECT room_id, count(*) FROM film " +
+                "GROUP BY room_id " +
+                "HAVING room_id = ?";
+        try {
+            stmt = conn.prepareStatement(getSQL);
+            stmt.setInt(1, roomID);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                result = rs.getInt("count");
+            }
+            else{
+                result = 0;
+            }
+
+
+
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE,"Chyba pri vykonavani dopytu na DB",e);
+            e.printStackTrace();
+            result = -1;
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (Exception e) {
+                LOG.log(Level.WARNING,"Chyba pri zatvarani statementu",e);
+            }
+
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE,"Chyba pri zatvarani DB connection",e);
+            }
+
+
+        }
+
+        LOG.log(Level.INFO,"Nacitavanie filmov pre room: " + roomID + " ukoncene uspesne");
+        return result;
     }
 
     public int getRoomsCount(int userID) {

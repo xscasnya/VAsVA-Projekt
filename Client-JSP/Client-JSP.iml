@@ -22,14 +22,6 @@
     <orderEntry type="module" module-name="Server" />
     <orderEntry type="library" scope="PROVIDED" name="JBoss 10.2.0.Final" level="application_server_libraries" />
     <orderEntry type="library" name="javax.servlet:jstl:1.2" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/core-3.3.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="core-3.3.0" level="project" />
   </component>
 </module>

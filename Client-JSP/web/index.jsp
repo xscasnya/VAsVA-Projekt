@@ -36,11 +36,11 @@
 
         <form action="Login" method="post">
             <div class="form-group has-feedback">
-                <input type="text" id="nickname" class="form-control" placeholder="<fmt:message key="login.nickname" /> ${language}" name="nickname" value="admin">
+                <input type="text" id="nickname" class="form-control" placeholder="<fmt:message key="login.nickname" />" name="nickname">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" id="pwd" placeholder="<fmt:message key="login.password" />" name="pwd" value="admin">
+                <input type="password" class="form-control" id="pwd" placeholder="<fmt:message key="login.password" />" name="pwd">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <c:if test="${messages != null}">

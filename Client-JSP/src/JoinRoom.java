@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet ktorý sa stará o pripojenie k miestnosti
@@ -88,7 +89,25 @@ public class JoinRoom extends HttpServlet{
         }
 
 
-        req.getRequestDispatcher("/content/joinRoom.jsp").forward(req, resp);
+        rereshRooms(req);
 
+        req.getRequestDispatcher("/content/dashboard.jsp").forward(req, resp);
+
+    }
+
+    public void rereshRooms(HttpServletRequest req) {
+        Response response1 =  remote.getUserRooms(((User)req.getSession().getAttribute("user")).getId());
+        List<Room> rooms = null;
+
+        if(response1.getCode() == Response.error)
+        {
+            // TODO osetrit a vypisat error
+        }
+        else
+        {
+            rooms = (List<Room>) response1.getData();
+        }
+
+        req.getSession().setAttribute("rooms", rooms);
     }
 }

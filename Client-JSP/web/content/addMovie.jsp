@@ -39,7 +39,9 @@
         <section class="content-header">
             <h1>
                 <fmt:message key="addMovie.title"/>
-                <small><fmt:message key="addMovie.smallTitle"/> #<c:out value="${param['id']}"/></small>
+                <a href="${path}/content/rooms?id=${param['id']}">
+                    <small><fmt:message key="addMovie.smallTitle"/> #<c:out value="${param['id']}"/></small>
+                </a>
             </h1>
         </section>
         <section class="content">
@@ -76,6 +78,11 @@
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary"><fmt:message
                                         key="addMovie.searchBtn"/></button>
+                                <a href="${path}/content/rooms?id=${param['id']}">
+                                    <button type="button" class="btn btn-default">
+                                        <fmt:message key="addMovie.backBtn"/>
+                                    </button>
+                                </a>
                             </div>
                         </form>
 

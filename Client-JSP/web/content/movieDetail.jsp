@@ -88,7 +88,7 @@
                                 </dl>
                             </div>
                             <div class="col-xs-12" style="margin-top: 20px">
-                                <a href="#">
+                                <a href="${caller}">
                                     <button type="button" class="btn btn-default"><fmt:message
                                             key="movieDetail.backBtn"/></button>
                                 </a>
